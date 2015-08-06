@@ -7,7 +7,29 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
+namespace Application;
+
 return array(
+    'doctrine' => array(
+        'driver' => array(
+            __NAMESPACE__ . '_driver' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(__DIR__ . '/../src/' . __NAMESPACE__ . '/Entity'),
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+                    __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver',
+                ),
+            ),
+        ),
+        'eventmanager' => array(
+            'orm_default' => array(
+                'subscribers' => array('oracle-session-init'),
+            ),
+        ),
+    ),
+
     'router' => array(
         'routes' => array(
             'home' => array(
@@ -17,6 +39,23 @@ return array(
                     'defaults' => array(
                         'controller' => 'Application\Controller\Index',
                         'action'     => 'index',
+                    ),
+                ),
+            ),
+
+            'grupo' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/grupo[/][:action][/:id]',
+                    'constraints' => array(
+                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Application\Controller',
+                        'controller' => 'Grupo',
+                        'action' => 'index',
                     ),
                 ),
             ),
@@ -59,6 +98,9 @@ return array(
         ),
         'factories' => array(
             'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
+            /*'GrupoDao' => function ($sm) {
+                return new \Application\Dao\GrupoDao($sm->get('Doctrine\ORM\EntityManager'), $sm);
+            },*/
         ),
     ),
     'translator' => array(

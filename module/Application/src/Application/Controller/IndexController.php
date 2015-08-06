@@ -9,13 +9,33 @@
 
 namespace Application\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
+use Application\Custom\ActionControllerAbstract;
 use Zend\View\Model\ViewModel;
 
-class IndexController extends AbstractActionController
+class IndexController extends ActionControllerAbstract
 {
     public function indexAction()
     {
         return new ViewModel();
     }
+
+    /**
+     * Retorna o titulo da pagina (especializar)
+     *
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        // TODO: Implement getTitle() method.
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBreadcrumb()
+    {
+        // TODO: Implement getBreadcrumb() method.
+    }
+
+
 }
