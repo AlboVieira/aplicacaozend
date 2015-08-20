@@ -3,7 +3,7 @@ return array(
     'service_manager' => array(
         'invokables' => array(
             'Zend\Session\SessionManager' => 'Zend\Session\SessionManager',
-            'oracle-session-init' => '\Doctrine\DBAL\Event\Listeners\OracleSessionInit',
+            //'oracle-session-init' => '\Doctrine\DBAL\Event\Listeners\OracleSessionInit',
         ),
         'aliases' => array(
             'Zend\Authentication\AuthenticationService' => 'zfcuser_auth_service'
@@ -18,6 +18,7 @@ return array(
 
     'view_helpers' => array(
         'invokables' => array(
+            //'jqGrid' => 'Application\Util\JqGridTable',
           /*  'urlHelper' => 'Application\Helper\URLHelper',
             'menuHelper' => 'Application\Helper\MenuHelper',
             'FlashMessengerHelper' => 'Application\Helper\FlashMessengerHelper',
