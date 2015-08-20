@@ -23,11 +23,6 @@ return array(
                 ),
             ),
         ),
-        'eventmanager' => array(
-            'orm_default' => array(
-                'subscribers' => array('oracle-session-init'),
-            ),
-        ),
     ),
 
     'router' => array(
