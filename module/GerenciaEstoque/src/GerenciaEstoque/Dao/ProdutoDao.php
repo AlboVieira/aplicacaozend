@@ -8,14 +8,12 @@
  */
 
 namespace GerenciaEstoque\Dao;
-use \Application\Custom\Dao\BaseDaoAbstract;
 
-class ProdutoDao extends BaseDaoAbstract
+use Application\Custom\DaoAbstract;
+
+class ProdutoDao extends DaoAbstract
 {
     protected $entityName = 'GerenciaEstoque\\Entity\\Produto';
-    protected $entityManager;
 
-    public function __construct(){
-        //$this->entityManager =
-    }
+
 }
