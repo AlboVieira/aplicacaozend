@@ -1,6 +1,6 @@
 <?php
 
-namespace GerenciaEstoque\Entity;
+namespace Application\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -37,6 +37,55 @@ class Estoque
      * })
      */
     private $idProduto;
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getQuantidadeEstoque()
+    {
+        return $this->quantidadeEstoque;
+    }
+
+    /**
+     * @param string $quantidadeEstoque
+     */
+    public function setQuantidadeEstoque($quantidadeEstoque)
+    {
+        $this->quantidadeEstoque = $quantidadeEstoque;
+    }
+
+    /**
+     * @return Produto
+     */
+    public function getIdProduto()
+    {
+        return $this->idProduto;
+    }
+
+    /**
+     * @param Produto $idProduto
+     */
+    public function setIdProduto($idProduto)
+    {
+        $this->idProduto = $idProduto;
+    }
+
 
 
 }

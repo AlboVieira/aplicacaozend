@@ -1,6 +1,6 @@
 <?php
 
-namespace GerenciaEstoque\Entity;
+namespace Application\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -34,6 +34,54 @@ class Fornecedor
      * @ORM\Column(name="cnpj", type="string", length=45, nullable=false)
      */
     private $cnpj;
+
+    /**
+     * @return int
+     */
+    public function getIdFornecedor()
+    {
+        return $this->idFornecedor;
+    }
+
+    /**
+     * @param int $idFornecedor
+     */
+    public function setIdFornecedor($idFornecedor)
+    {
+        $this->idFornecedor = $idFornecedor;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNomeFornecedor()
+    {
+        return $this->nomeFornecedor;
+    }
+
+    /**
+     * @param string $nomeFornecedor
+     */
+    public function setNomeFornecedor($nomeFornecedor)
+    {
+        $this->nomeFornecedor = $nomeFornecedor;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCnpj()
+    {
+        return $this->cnpj;
+    }
+
+    /**
+     * @param string $cnpj
+     */
+    public function setCnpj($cnpj)
+    {
+        $this->cnpj = $cnpj;
+    }
 
 
 }

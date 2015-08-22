@@ -3,6 +3,7 @@
 namespace GerenciaEstoque\Entity;
 
 use Application\Custom\Entity\BaseEntityAbstract;
+use Application\Custom\EntityAbstract;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="produto")
  * @ORM\Entity
  */
-class Produto extends BaseEntityAbstract
+class Produto extends EntityAbstract
 {
     /**
      * @var integer

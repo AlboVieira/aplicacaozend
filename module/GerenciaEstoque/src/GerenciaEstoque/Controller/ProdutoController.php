@@ -10,7 +10,9 @@
 namespace GerenciaEstoque\Controller;
 
 use Application\Custom\ActionControllerAbstract;
+use Application\Helper\BotoesHelper;
 use GerenciaEstoque\Service\ProdutoService;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
 class ProdutoController extends ActionControllerAbstract
@@ -21,13 +23,23 @@ class ProdutoController extends ActionControllerAbstract
         $service = $this->getFromServiceLocator('ProdutoService');
 
         $grid = $service->getGrid();
-
-
+        //var_dump($grid);die;
         return new ViewModel(
-            array('grid' => $grid->renderJs())
+            array(
+                'grid' => $grid,
+               // 'botoes' => $this->addBotao()
+            )
         );
     }
 
+    public function getDadosAction(){
+
+        /** @var ProdutoService $service */
+        $service = $this->getFromServiceLocator('ProdutoService');
+        $grid = $service->getGridDados();
+
+        return new JsonModel($grid);
+    }
 
     /**
      * Retorna o titulo da pagina (especializar)
@@ -47,5 +59,8 @@ class ProdutoController extends ActionControllerAbstract
         // TODO: Implement getBreadcrumb() method.
     }
 
+    public function addBotao(){
+        BotoesHelper::addBotao(array('Incluir', '/produto/incluir'));
+    }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace GerenciaEstoque\Entity;
+namespace Application\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -34,6 +34,54 @@ class Pedido
      * @ORM\Column(name="valor_total", type="decimal", precision=10, scale=0, nullable=true)
      */
     private $valorTotal;
+
+    /**
+     * @return int
+     */
+    public function getIdPedido()
+    {
+        return $this->idPedido;
+    }
+
+    /**
+     * @param int $idPedido
+     */
+    public function setIdPedido($idPedido)
+    {
+        $this->idPedido = $idPedido;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * @param \DateTime $data
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValorTotal()
+    {
+        return $this->valorTotal;
+    }
+
+    /**
+     * @param string $valorTotal
+     */
+    public function setValorTotal($valorTotal)
+    {
+        $this->valorTotal = $valorTotal;
+    }
 
 
 }

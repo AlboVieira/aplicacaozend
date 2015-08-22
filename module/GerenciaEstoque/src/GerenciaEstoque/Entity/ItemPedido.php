@@ -1,6 +1,6 @@
 <?php
 
-namespace GerenciaEstoque\Entity;
+namespace Application\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -36,7 +36,7 @@ class ItemPedido
     private $valor;
 
     /**
-     * @var \GerenciaEstoque\Entity\Produto
+     * @var \Application\Entity\Produto
      *
      * @ORM\ManyToOne(targetEntity="Application\Entity\Produto")
      * @ORM\JoinColumns({
@@ -46,7 +46,7 @@ class ItemPedido
     private $idProduto;
 
     /**
-     * @var \GerenciaEstoque\Entity\Pedido
+     * @var \Application\Entity\Pedido
      *
      * @ORM\ManyToOne(targetEntity="Application\Entity\Pedido")
      * @ORM\JoinColumns({
@@ -54,6 +54,86 @@ class ItemPedido
      * })
      */
     private $idPedido;
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return float
+     */
+    public function getQuantidade()
+    {
+        return $this->quantidade;
+    }
+
+    /**
+     * @param float $quantidade
+     */
+    public function setQuantidade($quantidade)
+    {
+        $this->quantidade = $quantidade;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValor()
+    {
+        return $this->valor;
+    }
+
+    /**
+     * @param string $valor
+     */
+    public function setValor($valor)
+    {
+        $this->valor = $valor;
+    }
+
+    /**
+     * @return Produto
+     */
+    public function getIdProduto()
+    {
+        return $this->idProduto;
+    }
+
+    /**
+     * @param Produto $idProduto
+     */
+    public function setIdProduto($idProduto)
+    {
+        $this->idProduto = $idProduto;
+    }
+
+    /**
+     * @return Pedido
+     */
+    public function getIdPedido()
+    {
+        return $this->idPedido;
+    }
+
+    /**
+     * @param Pedido $idPedido
+     */
+    public function setIdPedido($idPedido)
+    {
+        $this->idPedido = $idPedido;
+    }
 
 
 }

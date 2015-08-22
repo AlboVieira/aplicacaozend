@@ -1,6 +1,6 @@
 <?php
 
-namespace GerenciaEstoque\Entity;
+namespace Application\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -43,7 +43,7 @@ class NotasFiscais
     private $dataEmissao;
 
     /**
-     * @var \GerenciaEstoque\Entity\Pedido
+     * @var \Application\Entity\Pedido
      *
      * @ORM\ManyToOne(targetEntity="Application\Entity\Pedido")
      * @ORM\JoinColumns({
@@ -51,6 +51,86 @@ class NotasFiscais
      * })
      */
     private $idPedido;
+
+    /**
+     * @return int
+     */
+    public function getIdNotaFiscal()
+    {
+        return $this->idNotaFiscal;
+    }
+
+    /**
+     * @param int $idNotaFiscal
+     */
+    public function setIdNotaFiscal($idNotaFiscal)
+    {
+        $this->idNotaFiscal = $idNotaFiscal;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumeroNota()
+    {
+        return $this->numeroNota;
+    }
+
+    /**
+     * @param int $numeroNota
+     */
+    public function setNumeroNota($numeroNota)
+    {
+        $this->numeroNota = $numeroNota;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValorNota()
+    {
+        return $this->valorNota;
+    }
+
+    /**
+     * @param string $valorNota
+     */
+    public function setValorNota($valorNota)
+    {
+        $this->valorNota = $valorNota;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDataEmissao()
+    {
+        return $this->dataEmissao;
+    }
+
+    /**
+     * @param \DateTime $dataEmissao
+     */
+    public function setDataEmissao($dataEmissao)
+    {
+        $this->dataEmissao = $dataEmissao;
+    }
+
+    /**
+     * @return Pedido
+     */
+    public function getIdPedido()
+    {
+        return $this->idPedido;
+    }
+
+    /**
+     * @param Pedido $idPedido
+     */
+    public function setIdPedido($idPedido)
+    {
+        $this->idPedido = $idPedido;
+    }
 
 
 }

@@ -7,7 +7,7 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Application;
+namespace GerenciaEstoque;
 
 return array(
     'doctrine' => array(
@@ -136,6 +136,9 @@ return array(
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+        'strategies' => array(
+            'ViewJsonStrategy',
         ),
     ),
     // Placeholder for console routes

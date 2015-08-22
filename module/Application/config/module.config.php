@@ -93,9 +93,6 @@ return array(
         ),
         'factories' => array(
             'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
-            /*'GrupoDao' => function ($sm) {
-                return new \Application\Dao\GrupoDao($sm->get('Doctrine\ORM\EntityManager'), $sm);
-            },*/
         ),
     ),
     'translator' => array(
