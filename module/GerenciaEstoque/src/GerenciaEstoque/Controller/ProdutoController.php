@@ -9,8 +9,10 @@
 
 namespace GerenciaEstoque\Controller;
 
+use Application\Constants\ProdutoConst;
 use Application\Custom\ActionControllerAbstract;
-use Application\Helper\BotoesHelper;
+use GerenciaEstoque\Filter\ProdutoFilter;
+use GerenciaEstoque\Form\ProdutoForm;
 use GerenciaEstoque\Service\ProdutoService;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
@@ -20,14 +22,12 @@ class ProdutoController extends ActionControllerAbstract
     public function indexAction()
     {
         /** @var ProdutoService $service */
-        $service = $this->getFromServiceLocator('ProdutoService');
-
+        $service = $this->getFromServiceLocator(ProdutoConst::SERVICE);
         $grid = $service->getGrid();
-        //var_dump($grid);die;
         return new ViewModel(
             array(
                 'grid' => $grid,
-               // 'botoes' => $this->addBotao()
+                'botoesHelper' => $this->getBotoesHelper()
             )
         );
     }
@@ -35,10 +35,51 @@ class ProdutoController extends ActionControllerAbstract
     public function getDadosAction(){
 
         /** @var ProdutoService $service */
-        $service = $this->getFromServiceLocator('ProdutoService');
+        $service = $this->getFromServiceLocator(ProdutoConst::SERVICE);
         $grid = $service->getGridDados();
 
         return new JsonModel($grid);
+    }
+
+    public function incluirAction(){
+
+        /** @var ProdutoService $service */
+        $service = $this->getFromServiceLocator(ProdutoConst::SERVICE);
+
+        $form = new ProdutoForm();
+        $filter = new ProdutoFilter();
+
+        if ($this->getRequest()->isPost()) {
+            $post = $this->getRequest()->getPost();
+            $form->setInputFilter($filter);
+            $form->setData($post);
+
+            if($form->isValid()){
+                try{
+                    if($service->salvar($form->getData())){
+                        $this->flashMessenger()->addSuccessMessage('Cadastro realizado com sucesso');
+                    }
+                }
+                catch(\Exception $e){
+                    $this->flashMessenger()->addErrorMessage('Erro');
+                }
+            }
+
+        }
+
+        return new ViewModel(
+            array(
+                'form' => $form,
+            )
+        );
+    }
+
+    public function editarAction(){
+        return new ViewModel();
+    }
+
+    public function excluirAction(){
+        return new ViewModel();
     }
 
     /**
@@ -59,8 +100,12 @@ class ProdutoController extends ActionControllerAbstract
         // TODO: Implement getBreadcrumb() method.
     }
 
-    public function addBotao(){
-        BotoesHelper::addBotao(array('Incluir', '/produto/incluir'));
+    public function getBotoesHelper()
+    {
+        return array(
+            $this->addBotaoHelper('btn-incluir btn-success btn btn-xs', 'glyphicon glyphicon-plus', 'Incluir Produto','',
+                $this->url()->fromRoute('produto', array('action' => 'incluir'))),
+        );
     }
 
 }

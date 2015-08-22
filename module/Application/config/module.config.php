@@ -107,7 +107,8 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController'
+            'Application\Controller\Index' => 'Application\Controller\IndexController',
+            'BotoesHelper' => 'Application\Helper\BotoesHelper'
         ),
     ),
     'view_manager' => array(
@@ -125,6 +126,7 @@ return array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
+
     ),
     // Placeholder for console routes
     'console' => array(

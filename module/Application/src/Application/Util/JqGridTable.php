@@ -8,33 +8,17 @@
  */
 namespace Application\Util;
 
+use Application\Constants\JqGridConst;
 use Doctrine\ORM\QueryBuilder;
 
 class JqGridTable
 {
-    /*$("#jqGrid").jqGrid({
-            url: '/gerencia-estoque/produto',
-            mtype: "GET",
-            styleUI : 'Bootstrap',
-            datatype: "jsonp",
-            colModel: [
-                { label: 'ID', name: 'id', key: true, width: 75 },
-                { label: 'Descricao', name: 'nome', width: 150 },
-                { label: 'Valor Unitario', name: 'Valor', width: 150 },
-            ],
-            viewrecords: true,
-            height: 250,
-            rowNum: 20,
-            pager: "#jqGridPager"
-        });*/
     private $title;
     private $colunas = array();
     private $url;
-    private $widthTable = 1000;
+    private $widthTable = 1120;
 
-    private $rowNum;
     private $queryBuilder;
-
     private $alias;
 
     /**
@@ -62,6 +46,7 @@ class JqGridTable
     }
 
     public function getColunas(){
+
         return json_encode($this->colunas);
     }
 
@@ -88,9 +73,9 @@ class JqGridTable
         $qtde = $this->getCount();
 
         return array(
-            'rows' => $this->getTodosRegistros(),
-            'total' => $qtde,
-            'records' => $qtde,
+            JqGridConst::PARAM_REGISTROS => $this->getTodosRegistros(),
+            JqGridConst::PARAM_QTD_TOTAL => $qtde,
+            JqGridConst::PARAM_REGISTRO_ENCONTRADOS => $qtde,
         );
     }
 
@@ -147,6 +132,8 @@ class JqGridTable
                 pager: "#jqGridPager",
                 caption: "<h4><b>$this->title</b></h4>",
                 jsonReader: {repeatitems: false},
+                autoWidth:true,
+                //shrink:true
             });
         });
         </script>

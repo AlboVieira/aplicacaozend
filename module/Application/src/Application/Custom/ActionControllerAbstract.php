@@ -116,13 +116,13 @@ abstract class ActionControllerAbstract extends AbstractActionController
      *
      * @return array
      */
-    protected function getBotoesListagem()
+    protected function getBotoesHelper()
     {
         return array();
     }
 
     /**
-     * Metodo de auxilio para contrucao do array consumido pelo viewHelper Application\Helper\BotoesListagem.
+     * Metodo de auxilio para contrucao do array consumido pelo viewHelper Application\Helper\BotoesHelper.
      *
      * @param $classBotao
      * @param $classIcone
@@ -133,7 +133,7 @@ abstract class ActionControllerAbstract extends AbstractActionController
      *
      * @return array
      */
-    protected function addBotaoListagem($classBotao, $classIcone, $alt, $title = '', $href = '',$hasTexto = false)
+    protected function addBotaoHelper($classBotao, $classIcone, $alt, $title = '', $href = '',$hasTexto = false)
     {
         if (empty($title)) {
             $title = $alt;

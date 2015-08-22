@@ -14,6 +14,7 @@ return array(
         //'ZfcUser',
         //'ZfcRbac',
         //'ZfcUserDoctrineORM',
+        'TwbBundle',
         'GerenciaEstoque',
         'Application',
     ),

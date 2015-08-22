@@ -19,7 +19,7 @@
 
         <!-- Scripts -->
         <?php echo $this->headScript()
-
+            ->prependFile($this->basePath('js/bootstrap-notify.min.js'))
             ->prependFile($this->basePath('js/bootstrap.min.js'))
             ->prependFile($this->basePath('/jqgrid/js/jquery.jqGrid.min.js'))
             ->prependFile($this->basePath('/jqgrid/js/i18n/grid.locale-pt-br.js'))
@@ -56,4 +56,46 @@
         </div> <!-- /container -->
         <?php echo $this->inlineScript() ?>
     </body>
+
+    <script>
+        function showMessages(text, type) {
+
+            if (type == undefined) {
+                type = 'info';
+            }
+
+            $.notify({message: text}, {type: type, z_index: 2050});
+        }
+
+        function jsonResult(result) {
+            if (result.status) {
+                showMessages(result.message.message, result.message.status)
+            } else {
+                showMessages(result.error, 'danger');
+                return false;
+            }
+        }
+
+        <?php // echo $this->FlashMessengerHelper(); ?>
+
+        /*$(document).ready(function () {
+            showMessages('teste');
+        })*/
+    </script>
+
+    <?php
+    $flash = $this->flashMessenger();
+    $flash->setMessageOpenFormat('<div%s>
+     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+         &times;
+     </button>
+     <ul><li>')
+        ->setMessageSeparatorString('</li><li>')
+        ->setMessageCloseString('</li></ul></div>');
+
+    echo $flash->render('error',   array('alert', 'alert-dismissible', 'alert-danger'));
+    echo $flash->render('info',    array('alert', 'alert-dismissible', 'alert-info'));
+    echo $flash->render('default', array('alert', 'alert-dismissible', 'alert-warning'));
+    echo $flash->render('success', array('alert', 'alert-dismissible', 'alert-success'));
+    ?>
 </html>

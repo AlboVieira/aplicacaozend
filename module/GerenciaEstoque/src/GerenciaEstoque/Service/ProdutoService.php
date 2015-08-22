@@ -7,7 +7,11 @@ namespace GerenciaEstoque\Service;
  * Date: 20/08/2015
  * Time: 00:11
  */
+use Application\Constants\JqGridConst;
+use Application\Constants\ProdutoConst;
 use Application\Custom\ServiceAbstract;
+use Application\Helper\BotoesHelper;
+use Application\Util\JqGridButton;
 use Application\Util\JqGridTable;
 use GerenciaEstoque\Dao\ProdutoDao;
 use GerenciaEstoque\Entity\Produto;
@@ -16,27 +20,43 @@ use GerenciaEstoque\Entity\Produto;
 
 class ProdutoService extends ServiceAbstract
 {
+    const URL_GET_DADOS = '/produto/getDados';
+
+    public function salvar(Produto $produto){
+
+        /** @var ProdutoDao $dao */
+        $dao = $this->getFromServiceLocator(ProdutoConst::DAO);
+        $dao->save($produto);
+
+        return $produto;
+    }
 
     public function getGrid(){
-        $jqgrid = new JqGridTable();
-        $jqgrid->addColunas(array('label' => 'Id','name' => 'idProduto', 'width' => 75));
-        $jqgrid->addColunas(array('label' => 'Descricao','name' => 'descricaoProduto','width' => 150));
-        $jqgrid->addColunas(array('label' => 'Valor Unitario','name' => 'valorUnitario', 'width' => 150));
 
-        $jqgrid->setUrl('/produto/getDados');
+        $jqgrid = new JqGridTable();
+        $jqgrid->addColunas(array(JqGridConst::LABEL =>
+            ProdutoConst::LBL_ID_PRODUTO,JqGridConst::NAME => ProdutoConst::FLD_ID_PRODUTO, JqGridConst::WIDTH => 200));
+        $jqgrid->addColunas(array(JqGridConst::LABEL  =>
+            ProdutoConst::LBL_DESC_PRODUTO,JqGridConst::NAME  => ProdutoConst::FLD_DESC_PRODUTO,JqGridConst::WIDTH => 400));
+        $jqgrid->addColunas(array(JqGridConst::LABEL  =>
+            ProdutoConst::LBL_VAL_UNITARIO,JqGridConst::NAME => ProdutoConst::FLD_VAL_UNITARIO, JqGridConst::WIDTH => 150));
+        $jqgrid->addColunas(array(JqGridConst::LABEL  =>
+            'Acao',JqGridConst::NAME => 'acao', JqGridConst::WIDTH => 60, JqGridConst::CLASSCSS => 'text-center'));
+
+        $jqgrid->setUrl(self::URL_GET_DADOS);
         $jqgrid->setTitle('Produto');
 
         return $jqgrid->renderJs();
     }
 
     public function getGridDados(){
+
         /** @var ProdutoDao $dao */
-        $dao = $this->getFromServiceLocator('ProdutoDao');
+        $dao = $this->getFromServiceLocator(ProdutoConst::DAO);
 
         $qb = $dao->getCompleteQueryBuilder();
 
         $jqgrid = new JqGridTable();
-
         $jqgrid->setAlias('p');
         $jqgrid->setQuery($qb);
 
@@ -44,25 +64,32 @@ class ProdutoService extends ServiceAbstract
         $rows = $jqgrid->getDatatableArray();
 
         $dados = [];
-        foreach($rows['rows'] as $row){
+        foreach($rows[JqGridConst::PARAM_REGISTROS] as $row){
             /** @var Produto $produto */
             $produto = $row;
+            $temp[ProdutoConst::FLD_ID_PRODUTO] = (string) $produto->getIdProduto();
+            $temp[ProdutoConst::FLD_DESC_PRODUTO] = $produto->getDescricaoProduto();
+            $temp[ProdutoConst::FLD_VAL_UNITARIO] = (string) $produto->getValorUnitario();
 
-            //$temp['id'] = $produto->getIdProduto();
-            //$temp['cell']['idProduto'] = $produto->getIdProduto();
-            $temp['idProduto'] = (string) $produto->getIdProduto();
-            $temp['descricaoProduto'] = $produto->getDescricaoProduto();
-            $temp['valorUnitario'] = (string) $produto->getValorUnitario();
+            $botaoEditar = new JqGridButton();
+            $botaoEditar->setTitle('Editar');
+            $botaoEditar->setClass('btn btn-primary btn-xs');
+            $botaoEditar->setUrl('/produto/editar');
+            $botaoEditar->setIcon('glyphicon glyphicon-edit');
+
+            $botaoExcluir = new JqGridButton();
+            $botaoExcluir->setTitle('Excluir');
+            $botaoExcluir->setClass('btn btn-danger btn-xs');
+            $botaoExcluir->setUrl('/produto/editar');
+            $botaoExcluir->setIcon('glyphicon glyphicon-trash');
+
+            $temp[JqGridConst::ACAO] = "<div class='agrupa-botoes'>".$botaoEditar->render() . $botaoExcluir->render(). "</div>";
 
             $dados[] = $temp;
         }
-        //var_dump($rows);die;
-        $rows['rows'] = $dados;
-
-        //var_export($rows['registros']);die;
+        $rows[JqGridConst::PARAM_REGISTROS] = $dados;
 
         return $rows;
-        //var_dump($qb->getQuery()->getResult());die;
     }
 
 

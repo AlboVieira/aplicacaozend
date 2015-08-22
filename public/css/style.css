@@ -35,3 +35,20 @@ div.container a.brand {
     margin-left: 0;
     padding: 8px 20px 12px 40px;
 }
+
+.ui-jqgrid {
+   /* width: 100% !important; */
+    margin-top: 3%;
+}
+
+#jqGrid_acao{
+    text-align: center;
+}
+
+.agrupa-botoes{
+    display: inline-table !important;
+}
+
+.agrupa-botoes button{
+    margin-right: 10px;
+}
