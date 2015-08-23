@@ -86,6 +86,24 @@ return array(
                     ),
                 ),
             ),
+
+            'pedido' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/pedido[/][:action][/:id]',
+                    'constraints' => array(
+                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'GerenciaEstoque\Controller',
+                        'controller' => 'Pedido',
+                        'action' => 'index',
+                    ),
+                ),
+            ),
+
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
@@ -136,6 +154,9 @@ return array(
             'FornecedorDao' => function ($sm) {
                 return new \GerenciaEstoque\Dao\FornecedorDao($sm->get('Doctrine\ORM\EntityManager'), $sm);
             },
+            'PedidoDao' => function ($sm) {
+                return new \GerenciaEstoque\Dao\PedidoDao($sm->get('Doctrine\ORM\EntityManager'), $sm);
+            },
 
             //Service
             'ProdutoService' => function ($sm) {
@@ -148,6 +169,9 @@ return array(
 
             'FornecedorService' => function ($sm) {
                 return new \GerenciaEstoque\Service\FornecedorService($sm);
+            },
+            'PedidoService' => function ($sm) {
+                return new \GerenciaEstoque\Service\PedidoService($sm);
             },
         ),
     ),
@@ -166,7 +190,8 @@ return array(
             'GerenciaEstoque\Controller\Index' => 'GerenciaEstoque\Controller\IndexController',
             'GerenciaEstoque\Controller\Produto' => 'GerenciaEstoque\Controller\ProdutoController',
             'GerenciaEstoque\Controller\Estoque' => 'GerenciaEstoque\Controller\EstoqueController',
-            'GerenciaEstoque\Controller\Fornecedor' => 'GerenciaEstoque\Controller\FornecedorController'
+            'GerenciaEstoque\Controller\Fornecedor' => 'GerenciaEstoque\Controller\FornecedorController',
+            'GerenciaEstoque\Controller\Pedido' => 'GerenciaEstoque\Controller\PedidoController'
         ),
     ),
     'view_manager' => array(

@@ -108,7 +108,6 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
-            'BotoesHelper' => 'Application\Helper\BotoesHelper'
         ),
     ),
     'view_manager' => array(

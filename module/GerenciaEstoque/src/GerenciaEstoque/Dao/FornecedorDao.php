@@ -15,4 +15,9 @@ class FornecedorDao extends DaoAbstract
 {
     protected $entityName = 'GerenciaEstoque\\Entity\\Fornecedor';
 
+    public function findAll()
+    {
+        $qb = $this->getCompleteQueryBuilder();
+        return $qb->getQuery()->getArrayResult();
+    }
 }

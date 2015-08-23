@@ -17,6 +17,16 @@ class BotoesHelper extends AbstractHelper
         $html = "<div class='container-botoes pull-right'>";
 
         foreach($arrBotoes as $botoes){
+
+            $attrs = '';
+            if (($botoes['attr'])) {
+
+                foreach ($botoes['attr'] as $key => $atributo) {
+                    $attrs .= $key . "=" . $atributo . ' ';
+                }
+                //var_dump($attrs);die;
+            }
+
             if(!empty($botoes['alt']) && empty($botoes['tittle'])){
                 $botoes['tittle'] = $botoes['alt'];
             }
@@ -25,7 +35,7 @@ class BotoesHelper extends AbstractHelper
             }
 
             $html .= "
-                <a href='{$botoes['href']}' title='{$botoes['tittle']}' class='{$botoes['class-botao']}'>
+                <a href='{$botoes['href']}' title='{$botoes['tittle']}' class='{$botoes['class-botao']}' {$attrs}>
                    <i class='{$botoes['class-icone']}'></i> {$botoes['tittle']}
                 </a>
             ";

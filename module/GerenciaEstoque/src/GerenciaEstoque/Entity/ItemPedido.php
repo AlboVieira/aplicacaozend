@@ -1,7 +1,8 @@
 <?php
 
-namespace Application\Entity;
+namespace GerenCiaEstoque\Entity;
 
+use Application\Custom\EntityAbstract;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="item_pedido", indexes={@ORM\Index(name="fk_pedido_idx", columns={"id_pedido"}), @ORM\Index(name="fk_produto_idx", columns={"id_produto"})})
  * @ORM\Entity
  */
-class ItemPedido
+class ItemPedido extends EntityAbstract
 {
     /**
      * @var integer
@@ -24,7 +25,7 @@ class ItemPedido
     /**
      * @var float
      *
-     * @ORM\Column(name="quantidade", type="float", precision=10, scale=0, nullable=false)
+     * @ORM\Column(name="quantidade", type="float", nullable=false)
      */
     private $quantidade;
 
@@ -36,9 +37,9 @@ class ItemPedido
     private $valor;
 
     /**
-     * @var \Application\Entity\Produto
+     * @var \GerenCiaEstoque\Entity\Pro
      *
-     * @ORM\ManyToOne(targetEntity="Application\Entity\Produto")
+     * @ORM\ManyToOne(targetEntity="GerenCiaEstoque\Entity\Produto")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_produto", referencedColumnName="id_produto")
      * })
@@ -46,9 +47,9 @@ class ItemPedido
     private $idProduto;
 
     /**
-     * @var \Application\Entity\Pedido
+     * @var \GerenCiaEstoque\Entity\Pedido
      *
-     * @ORM\ManyToOne(targetEntity="Application\Entity\Pedido")
+     * @ORM\ManyToOne(targetEntity="GerenCiaEstoque\Entity\Pedido")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_pedido", referencedColumnName="id_pedido")
      * })

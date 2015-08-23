@@ -133,7 +133,7 @@ abstract class ActionControllerAbstract extends AbstractActionController
      *
      * @return array
      */
-    protected function addBotaoHelper($classBotao, $classIcone, $alt, $title = '', $href = '',$hasTexto = false)
+    protected function addBotaoHelper($classBotao, $classIcone, $alt, $title = '', $href = '', $hasTexto = false, $attr = false)
     {
         if (empty($title)) {
             $title = $alt;
@@ -145,7 +145,8 @@ abstract class ActionControllerAbstract extends AbstractActionController
             'alt' => $alt,
             'title' => $title,
             'href' => $href,
-            'hasTexto' => $hasTexto
+            'hasTexto' => $hasTexto,
+            'attr' => $attr
         );
     }
 

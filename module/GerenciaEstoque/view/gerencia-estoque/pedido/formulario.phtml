@@ -1,0 +1,51 @@
+<?php
+
+echo $this->form(null, \TwbBundle\Form\View\Helper\TwbBundleForm::LAYOUT_HORIZONTAL)->openTag($this->form);
+$this->form->prepare();
+
+//$this->form->prepare();
+?>
+<div class="form-group">
+
+    <?php echo $this->formRow($this->form->get(\Application\Constants\PedidoConst::FLD_ID_PEDIDO)); ?>
+    <?php echo $this->formRow($this->form->get(\Application\Constants\PedidoConst::FLD_FORNECEDOR)); ?>
+    <?php echo $this->formRow($this->form->get(\Application\Constants\PedidoConst::FLD_DATA)); ?>
+    <?php echo $this->formRow($this->form->get(\Application\Constants\PedidoConst::FLD_VALOR_TOTAL)); ?>
+    <?php echo $this->formRow($this->form->get(\Application\Constants\PedidoConst::FLD_STATUS)); ?>
+</div>
+
+<div class="row botoesacao">
+    <?php echo $this->formButton($this->form->get('btn_salvar')); ?>
+    <?php echo $this->formButton($this->form->get('btn_cancelar')); ?>
+
+</div>
+
+<?php echo $this->form()->closeTag(); ?>
+
+<hr>
+<h3>Itens do Pedido</h3>
+<?php
+echo $this->botoesHelper($this->botoesHelper);
+echo $this->grid;
+?>
+
+<?php
+$modal = new \Application\Helper\ModalHelper();
+$modal->setTitle('Item Pedido');
+$modal->setContent(
+    'ss'
+);
+$modal->setFooter(
+    $this->formButton($this->form->get('btn_salvar')) .
+    $this->formButton($this->form->get('btn_cancelar'))
+);
+echo $modal->renderModal();
+
+?>
+
+
+<script>
+    $(document).ready(function () {
+        $("#cnpj").mask("99.999.999/9999-99");
+    })
+</script>

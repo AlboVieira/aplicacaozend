@@ -15,5 +15,10 @@ class ProdutoDao extends DaoAbstract
 {
     protected $entityName = 'GerenciaEstoque\\Entity\\Produto';
 
+    public function findAll()
+    {
+        $qb = $this->getCompleteQueryBuilder();
+        return $qb->getQuery()->getArrayResult();
+    }
 
 }
