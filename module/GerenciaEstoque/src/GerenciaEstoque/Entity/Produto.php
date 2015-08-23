@@ -2,7 +2,6 @@
 
 namespace GerenciaEstoque\Entity;
 
-use Application\Custom\Entity\BaseEntityAbstract;
 use Application\Custom\EntityAbstract;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -33,7 +32,7 @@ class Produto extends EntityAbstract
     /**
      * @var string
      *
-     * @ORM\Column(name="valor_unitario", type="decimal", precision=10, scale=0, nullable=false)
+     * @ORM\Column(name="valor_unitario", type="decimal", precision=10, scale=2, nullable=false)
      */
     private $valorUnitario;
 

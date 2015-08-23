@@ -24,7 +24,7 @@ class Estoque
     /**
      * @var string
      *
-     * @ORM\Column(name="quantidade_estoque", type="decimal", precision=10, scale=0, nullable=false)
+     * @ORM\Column(name="quantidade_estoque", type="float", nullable=false)
      */
     private $quantidadeEstoque;
 
@@ -37,6 +37,16 @@ class Estoque
      * })
      */
     private $idProduto;
+
+    /**
+     * @var \Application\Entity\NotasFiscais
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\NotasFiscais")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="nota_fiscal", referencedColumnName="id_nota_fiscal")
+     * })
+     */
+    private $idNotaFiscal;
 
     /**
      * @return int

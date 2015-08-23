@@ -1,7 +1,8 @@
 <?php
 
-namespace Application\Entity;
+namespace GerenciaEstoque\Entity;
 
+use Application\Custom\EntityAbstract;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="fornecedor")
  * @ORM\Entity
  */
-class Fornecedor
+class Fornecedor extends EntityAbstract
 {
     /**
      * @var integer
@@ -31,7 +32,7 @@ class Fornecedor
     /**
      * @var string
      *
-     * @ORM\Column(name="cnpj", type="string", length=45, nullable=false)
+     * @ORM\Column(name="cnpj", type="string", length=14, nullable=false)
      */
     private $cnpj;
 

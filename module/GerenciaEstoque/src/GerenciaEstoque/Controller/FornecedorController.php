@@ -9,22 +9,23 @@
 
 namespace GerenciaEstoque\Controller;
 
+use Application\Constants\FornecedorConst;
 use Application\Constants\MensagemConst;
-use Application\Constants\ProdutoConst;
 use Application\Custom\ActionControllerAbstract;
-use GerenciaEstoque\Filter\ProdutoFilter;
-use GerenciaEstoque\Form\ProdutoForm;
-use GerenciaEstoque\Service\ProdutoService;
+use GerenciaEstoque\Filter\FornecedorFilter;
+use GerenciaEstoque\Form\FornecedorForm;
+use GerenciaEstoque\Service\FornecedorService;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
-class ProdutoController extends ActionControllerAbstract
+class FornecedorController extends ActionControllerAbstract
 {
     public function indexAction()
     {
-        /** @var ProdutoService $service */
-        $service = $this->getFromServiceLocator(ProdutoConst::SERVICE);
+        /** @var FornecedorService S$service */
+        $service = $this->getFromServiceLocator(FornecedorConst::SERVICE);
         $grid = $service->getGrid();
+
         return new ViewModel(
             array(
                 'grid' => $grid,
@@ -33,40 +34,42 @@ class ProdutoController extends ActionControllerAbstract
         );
     }
 
-    public function getDadosAction(){
+    public function getDadosAction()
+    {
 
-        /** @var ProdutoService $service */
-        $service = $this->getFromServiceLocator(ProdutoConst::SERVICE);
+        /** @var FornecedorService $service */
+        $service = $this->getFromServiceLocator(FornecedorConst::SERVICE);
         $grid = $service->getGridDados();
 
         return new JsonModel($grid);
     }
 
-    public function incluirAction(){
+    public function incluirAction()
+    {
 
-        /** @var ProdutoService $service */
-        $service = $this->getFromServiceLocator(ProdutoConst::SERVICE);
+        /** @var FornecedorService $service */
+        $service = $this->getFromServiceLocator(FornecedorConst::SERVICE);
 
-        $form = new ProdutoForm();
-        $filter = new ProdutoFilter();
+        $form = new FornecedorForm();
 
         if ($this->getRequest()->isPost()) {
+
+            $filter = new FornecedorFilter();
             $post = $this->getRequest()->getPost();
             $form->setInputFilter($filter);
             $form->setData($post);
 
-            if($form->isValid()){
-                try{
-                    if($service->salvar($form->getData())){
+            if ($form->isValid()) {
+                try {
+                    if ($service->salvar($form->getData())) {
                         $this->flashMessenger()->addSuccessMessage(MensagemConst::CADASTRO_SUCESSO);
 
-                        return $this->redirect()->toRoute('produto');
+                        return $this->redirect()->toRoute('fornecedor');
 
                     } else {
                         $this->flashMessenger()->addErrorMessage(MensagemConst::OCORREU_UM_ERRO);
                     }
-                }
-                catch(\Exception $e){
+                } catch (\Exception $e) {
                     $this->flashMessenger()->addErrorMessage(MensagemConst::OCORREU_UM_ERRO);
                 }
             }
@@ -74,25 +77,25 @@ class ProdutoController extends ActionControllerAbstract
         }
 
         $view = new ViewModel();
-        $view->setTemplate('gerencia-estoque/produto/formulario');
+        $view->setTemplate('gerencia-estoque/fornecedor/formulario');
         $view->setVariables(array(
             'form' => $form,
         ));
         return $view;
     }
 
-    public function editarAction(){
+    public function editarAction()
+    {
 
-        /** @var ProdutoService $service */
-        $service = $this->getFromServiceLocator(ProdutoConst::SERVICE);
+        /** @var FornecedorService $service */
+        $service = $this->getFromServiceLocator(FornecedorConst::SERVICE);
 
-        $form = new ProdutoForm();
-        $filter = new ProdutoFilter();
+        $form = new FornecedorForm();
+        $filter = new FornecedorFilter();
 
         $id = $this->params()->fromRoute('id');
-        $produto = $service->getProduto($id);
-        //$produto->fromArray();
-        $form->bind($produto);
+        $fornecedor = $service->getEntity($id);
+        $form->bind($fornecedor);
 
         if ($this->getRequest()->isPost()) {
             $post = $this->getRequest()->getPost();
@@ -103,7 +106,7 @@ class ProdutoController extends ActionControllerAbstract
                 try {
                     if ($service->salvar($form->getData())) {
                         $this->flashMessenger()->addSuccessMessage(MensagemConst::CADASTRO_SUCESSO);
-                        return $this->redirect()->toRoute('produto');
+                        return $this->redirect()->toRoute('fornecedor');
                     } else {
                         $this->flashMessenger()->addErrorMessage(MensagemConst::OCORREU_UM_ERRO);
 
@@ -116,16 +119,17 @@ class ProdutoController extends ActionControllerAbstract
         }
 
         $view = new ViewModel();
-        $view->setTemplate('gerencia-estoque/produto/formulario');
+        $view->setTemplate('gerencia-estoque/fornecedor/formulario');
         $view->setVariables(array(
             'form' => $form,
         ));
         return $view;
     }
 
-    public function excluirAction(){
-        /** @var ProdutoService $service */
-        $service = $this->getFromServiceLocator(ProdutoConst::SERVICE);
+    public function excluirAction()
+    {
+        /** @var FornecedorService $service */
+        $service = $this->getFromServiceLocator(FornecedorConst::SERVICE);
 
         $id = $this->params()->fromRoute('id');
         try {
@@ -136,7 +140,7 @@ class ProdutoController extends ActionControllerAbstract
             $this->flashMessenger()->addErrorMessage(MensagemConst::OCORREU_UM_ERRO);
         }
 
-        return $this->redirect()->toRoute('produto');
+        return $this->redirect()->toRoute('fornecedor');
     }
 
     /**
@@ -160,8 +164,8 @@ class ProdutoController extends ActionControllerAbstract
     public function getBotoesHelper()
     {
         return array(
-            $this->addBotaoHelper('btn-incluir btn-success btn btn-xs', 'glyphicon glyphicon-plus', 'Incluir Produto','',
-                $this->url()->fromRoute('produto', array('action' => 'incluir'))),
+            $this->addBotaoHelper('btn-incluir btn-success btn btn-xs', 'glyphicon glyphicon-plus', 'Incluir Fornecedor', '',
+                $this->url()->fromRoute('fornecedor', array('action' => 'incluir'))),
         );
     }
 

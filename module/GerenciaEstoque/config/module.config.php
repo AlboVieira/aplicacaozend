@@ -54,6 +54,38 @@ return array(
                     ),
                 ),
             ),
+            'estoque' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/estoque[/][:action][/:id]',
+                    'constraints' => array(
+                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'GerenciaEstoque\Controller',
+                        'controller' => 'Estoque',
+                        'action' => 'index',
+                    ),
+                ),
+            ),
+            'fornecedor' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/fornecedor[/][:action][/:id]',
+                    'constraints' => array(
+                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'GerenciaEstoque\Controller',
+                        'controller' => 'Fornecedor',
+                        'action' => 'index',
+                    ),
+                ),
+            ),
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
@@ -98,12 +130,25 @@ return array(
             'ProdutoDao' => function ($sm) {
                 return new \GerenciaEstoque\Dao\ProdutoDao($sm->get('Doctrine\ORM\EntityManager'), $sm);
             },
+            'EstoqueDao' => function ($sm) {
+                return new \GerenciaEstoque\Dao\EstoqueDao($sm->get('Doctrine\ORM\EntityManager'), $sm);
+            },
+            'FornecedorDao' => function ($sm) {
+                return new \GerenciaEstoque\Dao\FornecedorDao($sm->get('Doctrine\ORM\EntityManager'), $sm);
+            },
 
             //Service
             'ProdutoService' => function ($sm) {
                 return new \GerenciaEstoque\Service\ProdutoService($sm);
             },
 
+            'EstoqueService' => function ($sm) {
+                return new \GerenciaEstoque\Service\EstoqueService($sm);
+            },
+
+            'FornecedorService' => function ($sm) {
+                return new \GerenciaEstoque\Service\FornecedorService($sm);
+            },
         ),
     ),
     'translator' => array(
@@ -119,7 +164,9 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'GerenciaEstoque\Controller\Index' => 'GerenciaEstoque\Controller\IndexController',
-            'GerenciaEstoque\Controller\Produto' => 'GerenciaEstoque\Controller\ProdutoController'
+            'GerenciaEstoque\Controller\Produto' => 'GerenciaEstoque\Controller\ProdutoController',
+            'GerenciaEstoque\Controller\Estoque' => 'GerenciaEstoque\Controller\EstoqueController',
+            'GerenciaEstoque\Controller\Fornecedor' => 'GerenciaEstoque\Controller\FornecedorController'
         ),
     ),
     'view_manager' => array(

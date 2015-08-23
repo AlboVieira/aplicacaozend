@@ -8,9 +8,6 @@
  */
 namespace Application\Util;
 
-use Application\Constants\JqGridConst;
-use Doctrine\ORM\QueryBuilder;
-
 class JqGridButton
 {
     private $class;
@@ -117,13 +114,21 @@ class JqGridButton
     }
 
 
+    public function getOnClick()
+    {
+        return <<<EOF
+        bootbox.confirm("Are you sure?", function(result) {
+            return true;
+        });
+EOF;
+    }
 
     public function render(){
         $hasTexto = $this->hasTexto ? $this->title : '';
         return <<<EOF
-        <button class='{$this->class}' data-href='{$this->url}' title ={$this->title} >
+        <a class='{$this->class}' href='{$this->url}' title ={$this->title} >
             <i class='{$this->icon}'></i>$hasTexto
-        </button>
+        </a>
 EOF;
     }
 

@@ -19,6 +19,8 @@
 
         <!-- Scripts -->
         <?php echo $this->headScript()
+            ->prependFile($this->basePath('js/jquery.maskedinput.min.js'))
+            ->prependFile($this->basePath('js/bootbox.min.js'))
             ->prependFile($this->basePath('js/bootstrap-notify.min.js'))
             ->prependFile($this->basePath('js/bootstrap.min.js'))
             ->prependFile($this->basePath('/jqgrid/js/jquery.jqGrid.min.js'))

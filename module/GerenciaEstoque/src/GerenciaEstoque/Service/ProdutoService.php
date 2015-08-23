@@ -10,7 +10,6 @@ namespace GerenciaEstoque\Service;
 use Application\Constants\JqGridConst;
 use Application\Constants\ProdutoConst;
 use Application\Custom\ServiceAbstract;
-use Application\Helper\BotoesHelper;
 use Application\Util\JqGridButton;
 use Application\Util\JqGridTable;
 use GerenciaEstoque\Dao\ProdutoDao;
@@ -29,6 +28,21 @@ class ProdutoService extends ServiceAbstract
         $dao->save($produto);
 
         return $produto;
+    }
+
+    public function excluir($produtoid)
+    {
+        /** @var ProdutoDao $dao */
+        $dao = $this->getFromServiceLocator(ProdutoConst::DAO);
+        $produto = $dao->getEntity($produtoid);
+        return $dao->remove($produto);
+    }
+
+    public function getProduto($id)
+    {
+        /** @var ProdutoDao $dao */
+        $dao = $this->getFromServiceLocator(ProdutoConst::DAO);
+        return $dao->getEntity($id);
     }
 
     public function getGrid(){
@@ -74,16 +88,18 @@ class ProdutoService extends ServiceAbstract
             $botaoEditar = new JqGridButton();
             $botaoEditar->setTitle('Editar');
             $botaoEditar->setClass('btn btn-primary btn-xs');
-            $botaoEditar->setUrl('/produto/editar');
+            $botaoEditar->setUrl('/produto/editar/' . $produto->getIdProduto());
             $botaoEditar->setIcon('glyphicon glyphicon-edit');
 
             $botaoExcluir = new JqGridButton();
             $botaoExcluir->setTitle('Excluir');
             $botaoExcluir->setClass('btn btn-danger btn-xs');
-            $botaoExcluir->setUrl('/produto/editar');
+            $botaoExcluir->setUrl('/produto/excluir/' . $produto->getIdProduto());
             $botaoExcluir->setIcon('glyphicon glyphicon-trash');
+            //$botaoExcluir->getOnClick();
 
-            $temp[JqGridConst::ACAO] = "<div class='agrupa-botoes'>".$botaoEditar->render() . $botaoExcluir->render(). "</div>";
+            $temp[JqGridConst::ACAO] = "<div class='agrupa-botoes'>" . $botaoEditar->render() . $botaoExcluir->render() .
+                "</div>";
 
             $dados[] = $temp;
         }

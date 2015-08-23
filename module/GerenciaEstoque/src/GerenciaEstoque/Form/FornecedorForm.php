@@ -2,27 +2,26 @@
 
 namespace GerenciaEstoque\Form;
 
-use Application\Constants\GrupoConst as Grupo;
-use Application\Constants\ProdutoConst;
-use GerenciaEstoque\Entity\Produto;
+use Application\Constants\FornecedorConst;
+use GerenciaEstoque\Entity\Fornecedor;
 use Zend\Form\Form;
 use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
 
 /**
  * Class ProdutoForm.
  */
-class ProdutoForm extends Form
+class FornecedorForm extends Form
 {
     /**
      * Cria o formulario para grupo.
      */
     public function __construct($url = null)
     {
-        parent::__construct('produto_form');
+        parent::__construct('fornecedor_form');
 
         $this
             ->setHydrator(new ClassMethodsHydrator(false))
-            ->setObject(new Produto());
+            ->setObject(new Fornecedor());
 
         $this->setAttributes(array(
             'method' => 'post',
@@ -30,7 +29,7 @@ class ProdutoForm extends Form
         ));
 
         $this->add(array(
-            'name' => ProdutoConst::FLD_ID_PRODUTO,
+            'name' => FornecedorConst::FLD_ID_FORNEC,
             'attributes' => array(
                 'type' => 'hidden',
                 'class' => '',
@@ -41,24 +40,25 @@ class ProdutoForm extends Form
         ));
 
         $this->add(array(
-            'name' => ProdutoConst::FLD_DESC_PRODUTO,
+            'name' => FornecedorConst::FLD_NOME_FORNEC,
             'attributes' => array(
                 'type' => 'text',
                 'class' => '',
             ),
             'options' => array(
-                'label' => ProdutoConst::LBL_DESC_PRODUTO,
+                'label' => FornecedorConst::LBL_NOME_FORNEC,
             ),
         ));
 
         $this->add(array(
-            'name' => ProdutoConst::FLD_VAL_UNITARIO,
+            'name' => FornecedorConst::FLD_CNPJ,
             'attributes' => array(
                 'type' => 'text',
                 'class' => '',
+                'id' => FornecedorConst::FLD_CNPJ
             ),
             'options' => array(
-                'label' => ProdutoConst::LBL_VAL_UNITARIO,
+                'label' => FornecedorConst::LBL_CNPJ,
             ),
         ));
 

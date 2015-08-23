@@ -9,15 +9,15 @@
 namespace GerenciaEstoque\Filter;
 
 
-use Application\Constants\ProdutoConst;
+use Application\Constants\FornecedorConst;
 use Zend\InputFilter\InputFilter;
 
-class ProdutoFilter extends InputFilter
+class FornecedorFilter extends InputFilter
 {
     public function __construct()
     {
         $this->add(array(
-            'name' => ProdutoConst::FLD_DESC_PRODUTO,
+            'name' => FornecedorConst::FLD_NOME_FORNEC,
             'required' => true,
             'filters' => array(
                 array('name' => 'StripTags'),
@@ -27,25 +27,25 @@ class ProdutoFilter extends InputFilter
                 array(
                     'name' => 'NotEmpty',
                     'options' => array(
-                        'campo' => ProdutoConst::LBL_DESC_PRODUTO,
+                        'campo' => FornecedorConst::LBL_NOME_FORNEC,
                     ),
                 ),
             ),
         ));
 
         $this->add(array(
-            'name' => ProdutoConst::FLD_VAL_UNITARIO,
+            'name' => FornecedorConst::FLD_CNPJ,
             'required' => true,
             'filters' => array(
                 array('name' => 'StripTags'),
                 array('name' => 'StringTrim'),
-                //array('name' => 'Digits'),
+                array('name' => 'Digits'),
             ),
             'validators' => array(
                 array(
                     'name' => 'NotEmpty',
                     'options' => array(
-                        'campo' => ProdutoConst::LBL_VAL_UNITARIO
+                        'campo' => FornecedorConst::LBL_CNPJ
                     ),
                 ),
             )

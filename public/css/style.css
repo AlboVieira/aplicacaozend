@@ -49,6 +49,6 @@ div.container a.brand {
     display: inline-table !important;
 }
 
-.agrupa-botoes button{
+.agrupa-botoes .btn {
     margin-right: 10px;
 }
