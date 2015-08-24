@@ -13,7 +13,9 @@ use Application\Constants\FornecedorConst;
 use Application\Constants\MensagemConst;
 use Application\Constants\PedidoConst;
 use Application\Custom\ActionControllerAbstract;
+use GerenciaEstoque\Filter\ItemPedidoFilter;
 use GerenciaEstoque\Filter\PedidoFilter;
+use GerenciaEstoque\Form\ItemPedidoForm;
 use GerenciaEstoque\Form\PedidoForm;
 use GerenciaEstoque\Service\FornecedorService;
 use GerenciaEstoque\Service\PedidoService;
@@ -136,8 +138,26 @@ class PedidoController extends ActionControllerAbstract
             'form' => $form,
             'grid' => $grid,
             'botoesHelper' => $this->getBotoesHelperToItemPedido(),
+            'formItem' => $this->getFormItemPedido()
         ));
         return $view;
+    }
+
+    public function getFormItemPedido()
+    {
+        /** @var PedidoService $service */
+        $service = $this->getFromServiceLocator(PedidoConst::SERVICE);
+        $form = new ItemPedidoForm($service, '/pedido/salvarItem');
+        $filter = new ItemPedidoFilter();
+        $form->setInputFilter($filter);
+
+        return $form;
+
+    }
+
+    public function salvarItemAction()
+    {
+        var_dump('s item');
     }
 
     public function excluirAction()
@@ -187,7 +207,7 @@ class PedidoController extends ActionControllerAbstract
     {
         return array(
             $this->addBotaoHelper('btn-incluir btn-success btn btn-xs', 'glyphicon glyphicon-plus', 'Incluir Item Pedido', '', false,
-                '', array('data-toggle' => "modal", 'data-target' => "#myModal"))
+                '', array('data-toggle' => "modal", 'data-target' => "#modal_item"))
         );
     }
 

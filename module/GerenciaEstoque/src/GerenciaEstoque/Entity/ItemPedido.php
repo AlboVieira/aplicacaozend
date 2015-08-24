@@ -1,6 +1,6 @@
 <?php
 
-namespace GerenCiaEstoque\Entity;
+namespace GerenciaEstoque\Entity;
 
 use Application\Custom\EntityAbstract;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,7 +20,7 @@ class ItemPedido extends EntityAbstract
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var float

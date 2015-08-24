@@ -153,6 +153,7 @@ class PedidoService extends ServiceAbstract
         return $jqgrid->renderJs();
     }
 
+
     public function getFornecedores()
     {
         /** @var FornecedorDao $dao */

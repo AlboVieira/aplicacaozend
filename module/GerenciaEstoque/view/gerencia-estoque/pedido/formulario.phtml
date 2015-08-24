@@ -30,15 +30,29 @@ echo $this->grid;
 ?>
 
 <?php
+
+echo $this->form(null, \TwbBundle\Form\View\Helper\TwbBundleForm::LAYOUT_HORIZONTAL)->openTag($this->formItem);
+$this->formItem->prepare();
+
 $modal = new \Application\Helper\ModalHelper();
 $modal->setTitle('Item Pedido');
 $modal->setContent(
-    'ss'
+//id do pedido atual
+    $this->formRow($this->formItem->get(\Application\Constants\PedidoConst::FLD_ID_PEDIDO)) .
+
+    $this->formRow($this->formItem->get(\Application\Constants\ItemPedidoConst::FLD_ID_PEDIDO)) .
+    $this->formRow($this->formItem->get(\Application\Constants\ItemPedidoConst::FLD_PRODUTO)) .
+    $this->formRow($this->formItem->get(\Application\Constants\ItemPedidoConst::FLD_QTD)) .
+    $this->formRow($this->formItem->get(\Application\Constants\ItemPedidoConst::FLD_VALOR))
 );
 $modal->setFooter(
-    $this->formButton($this->form->get('btn_salvar')) .
-    $this->formButton($this->form->get('btn_cancelar'))
+    $this->formButton($this->formItem->get('btn_salvar')) .
+    $this->formButton($this->formItem->get('btn_cancelar'))
 );
+$modal->setId('modal_item');
+
+echo $this->form()->closeTag();
+
 echo $modal->renderModal();
 
 ?>

@@ -5,7 +5,7 @@ namespace GerenciaEstoque\Form;
 use Application\Constants\FormConst;
 use Application\Constants\ItemPedidoConst;
 use Application\Constants\ProdutoConst;
-use GerenCiaEstoque\Entity\ItemPedido;
+use GerenciaEstoque\Entity\ItemPedido;
 use GerenciaEstoque\Service\PedidoService;
 use Zend\Form\Form;
 use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
