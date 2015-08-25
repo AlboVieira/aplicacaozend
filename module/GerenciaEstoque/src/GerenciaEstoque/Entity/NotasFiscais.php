@@ -43,9 +43,9 @@ class NotasFiscais
     private $dataEmissao;
 
     /**
-     * @var \Application\Entity\Pedido
+     * @var \GerenciaEstoque\Entity\Pedido
      *
-     * @ORM\ManyToOne(targetEntity="Application\Entity\Pedido")
+     * @ORM\ManyToOne(targetEntity="GerenciaEstoque\Entity\Pedido")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_pedido", referencedColumnName="id_pedido")
      * })

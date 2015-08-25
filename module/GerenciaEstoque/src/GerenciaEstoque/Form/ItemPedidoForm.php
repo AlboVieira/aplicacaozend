@@ -84,16 +84,6 @@ class ItemPedidoForm extends Form
             ),
         ));
 
-        $this->add(array(
-            'name' => ItemPedidoConst::FLD_VALOR,
-            'attributes' => array(
-                'type' => 'number',
-                'class' => '',
-            ),
-            'options' => array(
-                'label' => ItemPedidoConst::LBL_VALOR,
-            ),
-        ));
 
 
         $this->add(array(

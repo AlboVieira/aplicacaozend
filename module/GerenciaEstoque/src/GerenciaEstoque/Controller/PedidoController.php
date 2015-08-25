@@ -67,7 +67,8 @@ class PedidoController extends ActionControllerAbstract
                 try {
                     if ($pedido = $service->salvar($form->getData())) {
                         $this->flashMessenger()->addSuccessMessage(MensagemConst::CADASTRO_SUCESSO);
-                        $form->get(PedidoConst::FLD_ID_PEDIDO)->setValue($pedido->getIdPedido());
+                        //$form->get(PedidoConst::FLD_ID_PEDIDO)->setValue($pedido->getIdPedido());
+                        $this->redirect()->toUrl('/pedido/editar/' . $pedido->getIdPedido());
                     } else {
                         $this->flashMessenger()->addErrorMessage(MensagemConst::OCORREU_UM_ERRO);
                     }
@@ -78,15 +79,12 @@ class PedidoController extends ActionControllerAbstract
 
         }
 
-        $grid = $service->getGridItemPedido();
-
 
         $view = new ViewModel();
         $view->setTemplate('gerencia-estoque/pedido/formulario');
         $view->setVariables(array(
             'form' => $form,
-            'grid' => $grid,
-            'botoesHelper' => $this->getBotoesHelperToItemPedido(),
+            //'botoesHelper' => $this->getBotoesHelperToItemPedido(),
         ));
         return $view;
     }
@@ -129,7 +127,7 @@ class PedidoController extends ActionControllerAbstract
 
         }
 
-        $grid = $service->getGridItemPedido();
+        $grid = $service->getGridItemPedido($id);
 
 
         $view = new ViewModel();
@@ -141,6 +139,16 @@ class PedidoController extends ActionControllerAbstract
             'formItem' => $this->getFormItemPedido()
         ));
         return $view;
+    }
+
+    public function getDadosItemPedidoAction()
+    {
+        /** @var PedidoService $service */
+        $service = $this->getFromServiceLocator(PedidoConst::SERVICE);
+        $id = $this->params()->fromRoute('id');
+        $grid = $service->getGridDadosItemPedido($id);
+
+        return new JsonModel($grid);
     }
 
     public function getFormItemPedido()

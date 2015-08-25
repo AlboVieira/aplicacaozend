@@ -25,36 +25,29 @@ class ItemPedido extends EntityAbstract
     /**
      * @var float
      *
-     * @ORM\Column(name="quantidade", type="float", nullable=false)
+     * @ORM\Column(name="quantidade", type="float", precision=10, scale=0, nullable=false)
      */
     private $quantidade;
 
     /**
-     * @var string
+     * @var \GerenciaEstoque\Entity\Pedido
      *
-     * @ORM\Column(name="valor", type="decimal", precision=10, scale=0, nullable=false)
-     */
-    private $valor;
-
-    /**
-     * @var \GerenCiaEstoque\Entity\Pro
-     *
-     * @ORM\ManyToOne(targetEntity="GerenCiaEstoque\Entity\Produto")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_produto", referencedColumnName="id_produto")
-     * })
-     */
-    private $idProduto;
-
-    /**
-     * @var \GerenCiaEstoque\Entity\Pedido
-     *
-     * @ORM\ManyToOne(targetEntity="GerenCiaEstoque\Entity\Pedido")
+     * @ORM\ManyToOne(targetEntity="GerenciaEstoque\Entity\Pedido")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_pedido", referencedColumnName="id_pedido")
      * })
      */
     private $idPedido;
+
+    /**
+     * @var \GerenciaEstoque\Entity\Produto
+     *
+     * @ORM\ManyToOne(targetEntity="GerenciaEstoque\Entity\Produto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_produto", referencedColumnName="id_produto")
+     * })
+     */
+    private $idProduto;
 
     /**
      * @return int
@@ -89,39 +82,7 @@ class ItemPedido extends EntityAbstract
     }
 
     /**
-     * @return string
-     */
-    public function getValor()
-    {
-        return $this->valor;
-    }
-
-    /**
-     * @param string $valor
-     */
-    public function setValor($valor)
-    {
-        $this->valor = $valor;
-    }
-
-    /**
-     * @return Produto
-     */
-    public function getIdProduto()
-    {
-        return $this->idProduto;
-    }
-
-    /**
-     * @param Produto $idProduto
-     */
-    public function setIdProduto($idProduto)
-    {
-        $this->idProduto = $idProduto;
-    }
-
-    /**
-     * @return Pedido
+     * @return \GerenciaEstoque\
      */
     public function getIdPedido()
     {
@@ -129,11 +90,27 @@ class ItemPedido extends EntityAbstract
     }
 
     /**
-     * @param Pedido $idPedido
+     * @param \GerenciaEstoque\ $idPedido
      */
     public function setIdPedido($idPedido)
     {
         $this->idPedido = $idPedido;
+    }
+
+    /**
+     * @return \GerenciaEstoque\
+     */
+    public function getIdProduto()
+    {
+        return $this->idProduto;
+    }
+
+    /**
+     * @param \GerenciaEstoque\ $idProduto
+     */
+    public function setIdProduto($idProduto)
+    {
+        $this->idProduto = $idProduto;
     }
 
 

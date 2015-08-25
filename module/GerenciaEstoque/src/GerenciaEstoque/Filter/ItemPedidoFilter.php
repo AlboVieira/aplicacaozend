@@ -31,19 +31,6 @@ class ItemPedidoFilter extends InputFilter
         ));
 
         $this->add(array(
-            'name' => ItemPedidoConst::FLD_VALOR,
-            'required' => true,
-            'validators' => array(
-                array(
-                    'name' => 'NotEmpty',
-                    'options' => array(
-                        'campo' => ItemPedidoConst::FLD_VALOR,
-                    ),
-                ),
-            )
-        ));
-
-        $this->add(array(
             'name' => ItemPedidoConst::FLD_PRODUTO,
             'required' => true,
             'validators' => array(

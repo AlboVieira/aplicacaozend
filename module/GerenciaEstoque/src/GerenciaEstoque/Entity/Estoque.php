@@ -29,9 +29,9 @@ class Estoque
     private $quantidadeEstoque;
 
     /**
-     * @var \Application\Entity\Produto
+     * @var \GerenciaEstoque\Entity\Produto
      *
-     * @ORM\ManyToOne(targetEntity="Application\Entity\Produto")
+     * @ORM\ManyToOne(targetEntity="GerenciaEstoque\Entity\Produto")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_produto", referencedColumnName="id_produto")
      * })

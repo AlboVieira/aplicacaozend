@@ -157,6 +157,9 @@ return array(
             'PedidoDao' => function ($sm) {
                 return new \GerenciaEstoque\Dao\PedidoDao($sm->get('Doctrine\ORM\EntityManager'), $sm);
             },
+            'ItemPedidoDao' => function ($sm) {
+                return new \GerenciaEstoque\Dao\ItemPedidoDao($sm->get('Doctrine\ORM\EntityManager'), $sm);
+            },
 
             //Service
             'ProdutoService' => function ($sm) {

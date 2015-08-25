@@ -22,14 +22,16 @@ $this->form->prepare();
 
 <?php echo $this->form()->closeTag(); ?>
 
-<hr>
-<h3>Itens do Pedido</h3>
-<?php
-echo $this->botoesHelper($this->botoesHelper);
-echo $this->grid;
-?>
 
 <?php
+if ($this->formItem) {
+    echo '<hr>';
+    echo '<h3>Itens do Pedido</h3>';
+
+
+    echo $this->botoesHelper($this->botoesHelper);
+    echo $this->grid;
+
 
 echo $this->form(null, \TwbBundle\Form\View\Helper\TwbBundleForm::LAYOUT_HORIZONTAL)->openTag($this->formItem);
 $this->formItem->prepare();
@@ -38,12 +40,11 @@ $modal = new \Application\Helper\ModalHelper();
 $modal->setTitle('Item Pedido');
 $modal->setContent(
 //id do pedido atual
-    $this->formRow($this->formItem->get(\Application\Constants\PedidoConst::FLD_ID_PEDIDO)) .
+    $this->formRow($this->form->get(\Application\Constants\PedidoConst::FLD_ID_PEDIDO)) .
 
     $this->formRow($this->formItem->get(\Application\Constants\ItemPedidoConst::FLD_ID_PEDIDO)) .
     $this->formRow($this->formItem->get(\Application\Constants\ItemPedidoConst::FLD_PRODUTO)) .
-    $this->formRow($this->formItem->get(\Application\Constants\ItemPedidoConst::FLD_QTD)) .
-    $this->formRow($this->formItem->get(\Application\Constants\ItemPedidoConst::FLD_VALOR))
+    $this->formRow($this->formItem->get(\Application\Constants\ItemPedidoConst::FLD_QTD))
 );
 $modal->setFooter(
     $this->formButton($this->formItem->get('btn_salvar')) .
@@ -54,7 +55,7 @@ $modal->setId('modal_item');
 echo $this->form()->closeTag();
 
 echo $modal->renderModal();
-
+}
 ?>
 
 
