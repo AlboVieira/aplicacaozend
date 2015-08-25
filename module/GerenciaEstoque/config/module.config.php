@@ -104,6 +104,24 @@ return array(
                 ),
             ),
 
+            'nota-fiscal' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/nota-fiscal[/][:action][/:id]',
+                    'constraints' => array(
+                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'GerenciaEstoque\Controller',
+                        'controller' => 'NotaFiscal',
+                        'action' => 'index',
+                    ),
+                ),
+            ),
+
+
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
@@ -157,8 +175,8 @@ return array(
             'PedidoDao' => function ($sm) {
                 return new \GerenciaEstoque\Dao\PedidoDao($sm->get('Doctrine\ORM\EntityManager'), $sm);
             },
-            'ItemPedidoDao' => function ($sm) {
-                return new \GerenciaEstoque\Dao\ItemPedidoDao($sm->get('Doctrine\ORM\EntityManager'), $sm);
+            'NotaFiscalDao' => function ($sm) {
+                return new \GerenciaEstoque\Dao\NotaFiscalDao($sm->get('Doctrine\ORM\EntityManager'), $sm);
             },
 
             //Service
@@ -175,6 +193,9 @@ return array(
             },
             'PedidoService' => function ($sm) {
                 return new \GerenciaEstoque\Service\PedidoService($sm);
+            },
+            'NotaFiscalService' => function ($sm) {
+                return new \GerenciaEstoque\Service\NotaFiscalService($sm);
             },
         ),
     ),
@@ -194,7 +215,8 @@ return array(
             'GerenciaEstoque\Controller\Produto' => 'GerenciaEstoque\Controller\ProdutoController',
             'GerenciaEstoque\Controller\Estoque' => 'GerenciaEstoque\Controller\EstoqueController',
             'GerenciaEstoque\Controller\Fornecedor' => 'GerenciaEstoque\Controller\FornecedorController',
-            'GerenciaEstoque\Controller\Pedido' => 'GerenciaEstoque\Controller\PedidoController'
+            'GerenciaEstoque\Controller\Pedido' => 'GerenciaEstoque\Controller\PedidoController',
+            'GerenciaEstoque\Controller\NotaFiscal' => 'GerenciaEstoque\Controller\NotaFiscalController'
         ),
     ),
     'view_manager' => array(

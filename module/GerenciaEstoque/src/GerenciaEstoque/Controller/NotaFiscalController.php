@@ -11,23 +11,23 @@ namespace GerenciaEstoque\Controller;
 
 use Application\Constants\FornecedorConst;
 use Application\Constants\MensagemConst;
+use Application\Constants\NotaFiscalConst;
 use Application\Constants\PedidoConst;
 use Application\Custom\ActionControllerAbstract;
-use GerenciaEstoque\Filter\ItemPedidoFilter;
-use GerenciaEstoque\Filter\PedidoFilter;
-use GerenciaEstoque\Form\ItemPedidoForm;
-use GerenciaEstoque\Form\PedidoForm;
+use GerenciaEstoque\Filter\NotaFiscalFilter;
+use GerenciaEstoque\Form\NotaFiscalForm;
 use GerenciaEstoque\Service\FornecedorService;
+use GerenciaEstoque\Service\NotaFiscalService;
 use GerenciaEstoque\Service\PedidoService;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
-class PedidoController extends ActionControllerAbstract
+class NotaFiscalController extends ActionControllerAbstract
 {
     public function indexAction()
     {
         /** @var PedidoService $service */
-        $service = $this->getFromServiceLocator(PedidoConst::SERVICE);
+        $service = $this->getFromServiceLocator(NotaFiscalConst::SERVICE);
         $grid = $service->getGrid();
 
         return new ViewModel(
@@ -41,8 +41,8 @@ class PedidoController extends ActionControllerAbstract
     public function getDadosAction()
     {
 
-        /** @var PedidoService $service */
-        $service = $this->getFromServiceLocator(PedidoConst::SERVICE);
+        /** @var NotaFiscalService $service */
+        $service = $this->getFromServiceLocator(NotaFiscalConst::SERVICE);
         $grid = $service->getGridDados();
 
         return new JsonModel($grid);
@@ -51,40 +51,37 @@ class PedidoController extends ActionControllerAbstract
     public function incluirAction()
     {
 
-        /** @var PedidoService $service */
-        $service = $this->getFromServiceLocator(PedidoConst::SERVICE);
+        /** @var NotaFiscalService $service */
+        $service = $this->getFromServiceLocator(NotaFiscalConst::SERVICE);
 
-        $form = new PedidoForm($service);
+        $form = new NotaFiscalForm($service);
 
         if ($this->getRequest()->isPost()) {
 
-            $filter = new PedidoFilter();
+            $filter = new NotaFiscalFilter();
             $post = $this->getRequest()->getPost();
             $form->setInputFilter($filter);
             $form->setData($post);
 
             if ($form->isValid()) {
-                try {
-                    if ($pedido = $service->salvar($form->getData())) {
-                        $this->flashMessenger()->addSuccessMessage(MensagemConst::CADASTRO_SUCESSO);
-                        //$form->get(PedidoConst::FLD_ID_PEDIDO)->setValue($pedido->getIdPedido());
-                        $this->redirect()->toUrl('/pedido/editar/' . $pedido->getIdPedido());
-                    } else {
-                        $this->flashMessenger()->addErrorMessage(MensagemConst::OCORREU_UM_ERRO);
-                    }
-                } catch (\Exception $e) {
+                // try {
+                if ($notaFiscal = $service->salvar($form->getData())) {
+                    $this->flashMessenger()->addSuccessMessage(MensagemConst::CADASTRO_SUCESSO);
+                    $this->redirect()->toUrl('/nota-fiscal/editar/' . $notaFiscal->getIdNotaFiscal());
+                } else {
                     $this->flashMessenger()->addErrorMessage(MensagemConst::OCORREU_UM_ERRO);
                 }
+                //  } catch (\Exception $e) {
+                //      $this->flashMessenger()->addErrorMessage(MensagemConst::OCORREU_UM_ERRO);
+                //  }
             }
 
         }
 
-
         $view = new ViewModel();
-        $view->setTemplate('gerencia-estoque/pedido/formulario');
+        $view->setTemplate('gerencia-estoque/nota-fiscal/formulario');
         $view->setVariables(array(
             'form' => $form,
-            //'botoesHelper' => $this->getBotoesHelperToItemPedido(),
         ));
         return $view;
     }
@@ -92,18 +89,18 @@ class PedidoController extends ActionControllerAbstract
     public function editarAction()
     {
 
-        /** @var PedidoService $service */
-        $service = $this->getFromServiceLocator(PedidoConst::SERVICE);
+        /** @var NotaFiscalService $service */
+        $service = $this->getFromServiceLocator(NotaFiscalConst::SERVICE);
 
-        $form = new PedidoForm($service);
-        $filter = new PedidoFilter();
+        $form = new NotaFiscalForm($service);
+        $filter = new NotaFiscalFilter();
 
         $id = $this->params()->fromRoute('id');
-        $pedido = $service->getEntity($id);
+        $notaFiscal = $service->getEntity($id);
 
         //var_dump($pedido);die;
-        $form->bind($pedido);
-        $form->get(PedidoConst::FLD_DATA)->setValue($pedido->getData()->format('Y-m-d'));
+        $form->bind($notaFiscal);
+        $form->get(PedidoConst::FLD_DATA)->setValue($notaFiscal->getData()->format('Y-m-d'));
 
         if ($this->getRequest()->isPost()) {
             $post = $this->getRequest()->getPost();
@@ -112,7 +109,7 @@ class PedidoController extends ActionControllerAbstract
 
             if ($form->isValid()) {
                 try {
-                    if ($service->salvar($form->getData(), $isEdit = null)) {
+                    if ($service->salvar($form->getData())) {
                         $this->flashMessenger()->addSuccessMessage(MensagemConst::CADASTRO_SUCESSO);
                         $form->setData($post);
                         //return $this->redirect()->toRoute('fornecedor');
@@ -127,40 +124,15 @@ class PedidoController extends ActionControllerAbstract
 
         }
 
+
         $view = new ViewModel();
-        $view->setTemplate('gerencia-estoque/pedido/formulario');
+        $view->setTemplate('gerencia-estoque/nota-fiscal/formulario');
         $view->setVariables(array(
             'form' => $form,
         ));
         return $view;
     }
 
-    public function getDadosItemPedidoAction()
-    {
-        /** @var PedidoService $service */
-        $service = $this->getFromServiceLocator(PedidoConst::SERVICE);
-        $id = $this->params()->fromRoute('id');
-        $grid = $service->getGridDadosItemPedido($id);
-
-        return new JsonModel($grid);
-    }
-
-    public function getFormItemPedido()
-    {
-        /** @var PedidoService $service */
-        $service = $this->getFromServiceLocator(PedidoConst::SERVICE);
-        $form = new ItemPedidoForm($service, '/pedido/salvarItem');
-        $filter = new ItemPedidoFilter();
-        $form->setInputFilter($filter);
-
-        return $form;
-
-    }
-
-    public function salvarItemAction()
-    {
-        var_dump('s item');
-    }
 
     public function excluirAction()
     {
@@ -200,17 +172,10 @@ class PedidoController extends ActionControllerAbstract
     public function getBotoesHelper()
     {
         return array(
-            $this->addBotaoHelper('btn-incluir btn-success btn btn-xs', 'glyphicon glyphicon-plus', 'Incluir Pedido', '',
-                $this->url()->fromRoute('pedido', array('action' => 'incluir'))),
+            $this->addBotaoHelper('btn-incluir btn-success btn btn-xs', 'glyphicon glyphicon-plus', 'Incluir Nota Fiscal', '',
+                $this->url()->fromRoute('nota-fiscal', array('action' => 'incluir'))),
         );
     }
 
-    public function getBotoesHelperToItemPedido()
-    {
-        return array(
-            $this->addBotaoHelper('btn-incluir btn-success btn btn-xs', 'glyphicon glyphicon-plus', 'Incluir Item Pedido', '', false,
-                '', array('data-toggle' => "modal", 'data-target' => "#modal_item"))
-        );
-    }
 
 }

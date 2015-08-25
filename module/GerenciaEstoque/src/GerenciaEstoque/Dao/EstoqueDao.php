@@ -15,4 +15,15 @@ class EstoqueDao extends DaoAbstract
 {
     protected $entityName = 'GerenciaEstoque\\Entity\\Estoque';
 
+    public function verificaProdutoEmEstoque($idproduto)
+    {
+        $qb = $this->getCompleteQueryBuilder()
+            ->where($this->alias . DaoAbstract::TABLE_COLUMN_SEPARATOR . 'idProduto = :id')
+            ->setParameter('id', $idproduto);
+
+        if ($qb->getQuery()->getMaxResults()) {
+            return true;
+        }
+        return false;
+    }
 }

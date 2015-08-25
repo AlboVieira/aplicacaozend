@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Pedido
  *
- * @ORM\Table(name="pedido")
+ * @ORM\Table(name="pedido", indexes={@ORM\Index(name="fk_pedido_produto_idx", columns={"id_produto"}), @ORM\Index(name="fk_pedido_fornecedor_idx", columns={"id_fornecedor"})})
  * @ORM\Entity
  */
 class Pedido extends EntityAbstract
@@ -23,18 +23,32 @@ class Pedido extends EntityAbstract
     private $idPedido;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="valor_total", type="decimal", precision=10, scale=2, nullable=false)
+     */
+    private $valorTotal;
+
+    /**
      * @var \DateTime
      *
-     * @ORM\Column(name="data", type="datetime", nullable=false)
+     * @ORM\Column(name="data", type="date", nullable=false)
      */
     private $data;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="quantidade", type="float", precision=10, scale=0, nullable=false)
+     */
+    private $quantidade;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="valor_total", type="decimal", precision=10, scale=0, nullable=true)
+     * @ORM\Column(name="unidade", type="string", length=2, nullable=false)
      */
-    private $valorTotal;
+    private $unidade;
 
     /**
      * @var \GerenciaEstoque\Entity\Fornecedor
@@ -46,13 +60,15 @@ class Pedido extends EntityAbstract
      */
     private $idFornecedor;
 
-
     /**
-     * @var char
+     * @var \GerenciaEstoque\Entity\Produto
      *
-     * @ORM\Column(name="status", type="string", nullable=true)
+     * @ORM\ManyToOne(targetEntity="GerenciaEstoque\Entity\Produto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_produto", referencedColumnName="id_produto")
+     * })
      */
-    private $status;
+    private $idProduto;
 
     /**
      * @return int
@@ -68,22 +84,6 @@ class Pedido extends EntityAbstract
     public function setIdPedido($idPedido)
     {
         $this->idPedido = $idPedido;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    /**
-     * @param \DateTime $data
-     */
-    public function setData($data)
-    {
-        $this->data = new \DateTime($data);
     }
 
     /**
@@ -103,7 +103,55 @@ class Pedido extends EntityAbstract
     }
 
     /**
-     * @return \GerenciaEstoque\Entity\Fornecedor
+     * @return \DateTime
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * @param \DateTime $data
+     */
+    public function setData($data)
+    {
+        $this->data = new \DateTime($data);
+    }
+
+    /**
+     * @return float
+     */
+    public function getQuantidade()
+    {
+        return $this->quantidade;
+    }
+
+    /**
+     * @param float $quantidade
+     */
+    public function setQuantidade($quantidade)
+    {
+        $this->quantidade = $quantidade;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUnidade()
+    {
+        return $this->unidade;
+    }
+
+    /**
+     * @param string $unidade
+     */
+    public function setUnidade($unidade)
+    {
+        $this->unidade = $unidade;
+    }
+
+    /**
+     * @return Fornecedor
      */
     public function getIdFornecedor()
     {
@@ -111,7 +159,7 @@ class Pedido extends EntityAbstract
     }
 
     /**
-     * @param \GerenciaEstoque\Entity\Fornecedor $idFornecedor
+     * @param Fornecedor $idFornecedor
      */
     public function setIdFornecedor($idFornecedor)
     {
@@ -119,31 +167,21 @@ class Pedido extends EntityAbstract
     }
 
     /**
-     * @return char
+     * @return Produto
      */
-    public function getStatus($isLabel = false)
+    public function getIdProduto()
     {
-        if ($isLabel) {
-            switch ($this->status) {
-                case 'A':
-                    return 'Aberto';
-                case 'F':
-                    return 'Fechado';
-                case 'C':
-                    return 'Cancelado';
-
-            }
-        }
-        return $this->status;
+        return $this->idProduto;
     }
 
     /**
-     * @param char $status
+     * @param Produto $idProduto
      */
-    public function setStatus($status)
+    public function setIdProduto($idProduto)
     {
-        $this->status = $status;
+        $this->idProduto = $idProduto;
     }
+
 
 
 

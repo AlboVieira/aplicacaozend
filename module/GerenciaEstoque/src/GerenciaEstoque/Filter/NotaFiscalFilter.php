@@ -9,48 +9,51 @@
 namespace GerenciaEstoque\Filter;
 
 
-use Application\Constants\ItemPedidoConst;
+use Application\Constants\NotaFiscalConst;
 use Zend\InputFilter\InputFilter;
 
-class ItemPedidoFilter extends InputFilter
+class NotaFiscalFilter extends InputFilter
 {
     public function __construct()
     {
         $this->add(array(
-            'name' => ItemPedidoConst::FLD_QTD,
+            'name' => NotaFiscalConst::FLD_PEDIDO,
             'required' => true,
-            'filters' => array(),
+            'filters' => array(
+                array('name' => 'StripTags'),
+                array('name' => 'StringTrim'),
+            ),
             'validators' => array(
                 array(
                     'name' => 'NotEmpty',
                     'options' => array(
-                        'campo' => ItemPedidoConst::LBL_QTD,
+                        'campo' => NotaFiscalConst::LBL_PEDIDO,
                     ),
                 ),
             ),
         ));
 
         $this->add(array(
-            'name' => ItemPedidoConst::FLD_PRODUTO,
+            'name' => NotaFiscalConst::FLD_NUMERO_NOTA,
             'required' => true,
             'validators' => array(
                 array(
                     'name' => 'NotEmpty',
                     'options' => array(
-                        'campo' => ItemPedidoConst::LBL_PRODUTO,
+                        'campo' => NotaFiscalConst::LBL_NUMERO_NOTA,
                     ),
                 ),
             )
         ));
 
         $this->add(array(
-            'name' => ItemPedidoConst::FLD_PEDIDO,
+            'name' => NotaFiscalConst::FLD_DATA,
             'required' => true,
             'validators' => array(
                 array(
                     'name' => 'NotEmpty',
                     'options' => array(
-                        'campo' => ItemPedidoConst::LBL_PEDIDO,
+                        'campo' => NotaFiscalConst::FLD_DATA,
                     ),
                 ),
             )

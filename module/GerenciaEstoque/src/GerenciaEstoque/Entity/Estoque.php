@@ -1,32 +1,26 @@
 <?php
 
-namespace Application\Entity;
+namespace GerenciaEstoque\Entity;
 
+use Application\Custom\EntityAbstract;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Estoque
  *
- * @ORM\Table(name="estoque", indexes={@ORM\Index(name="fk_produto_idx", columns={"id_produto"})})
+ * @ORM\Table(name="estoque", indexes={@ORM\Index(name="fk_estoque_produto_idx", columns={"id_produto"})})
  * @ORM\Entity
  */
-class Estoque
+class Estoque extends EntityAbstract
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id_estoque", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="quantidade_estoque", type="float", nullable=false)
-     */
-    private $quantidadeEstoque;
+    private $idEstoque;
 
     /**
      * @var \GerenciaEstoque\Entity\Produto
@@ -39,45 +33,26 @@ class Estoque
     private $idProduto;
 
     /**
-     * @var \Application\Entity\NotasFiscais
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Application\Entity\NotasFiscais")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="nota_fiscal", referencedColumnName="id_nota_fiscal")
-     * })
+     * @ORM\Column(name="quantidade", type="integer", nullable=false)
      */
-    private $idNotaFiscal;
+    private $quantidade;
 
     /**
      * @return int
      */
-    public function getId()
+    public function getIdEstoque()
     {
-        return $this->id;
+        return $this->idEstoque;
     }
 
     /**
-     * @param int $id
+     * @param int $idEstoque
      */
-    public function setId($id)
+    public function setIdEstoque($idEstoque)
     {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getQuantidadeEstoque()
-    {
-        return $this->quantidadeEstoque;
-    }
-
-    /**
-     * @param string $quantidadeEstoque
-     */
-    public function setQuantidadeEstoque($quantidadeEstoque)
-    {
-        $this->quantidadeEstoque = $quantidadeEstoque;
+        $this->idEstoque = $idEstoque;
     }
 
     /**
@@ -96,6 +71,21 @@ class Estoque
         $this->idProduto = $idProduto;
     }
 
+    /**
+     * @return int
+     */
+    public function getQuantidade()
+    {
+        return $this->quantidade;
+    }
+
+    /**
+     * @param int $quantidade
+     */
+    public function setQuantidade($quantidade)
+    {
+        $this->quantidade = $quantidade;
+    }
 
 
 }

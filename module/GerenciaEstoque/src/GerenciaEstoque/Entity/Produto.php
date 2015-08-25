@@ -25,9 +25,9 @@ class Produto extends EntityAbstract
     /**
      * @var string
      *
-     * @ORM\Column(name="descricao_produto", type="string", length=145, nullable=false)
+     * @ORM\Column(name="nome_produto", type="string", length=145, nullable=false)
      */
-    private $descricaoProduto;
+    private $nomeProduto;
 
     /**
      * @var string
@@ -35,6 +35,7 @@ class Produto extends EntityAbstract
      * @ORM\Column(name="valor_unitario", type="decimal", precision=10, scale=2, nullable=false)
      */
     private $valorUnitario;
+
 
     /**
      * @return int
@@ -55,17 +56,17 @@ class Produto extends EntityAbstract
     /**
      * @return string
      */
-    public function getDescricaoProduto()
+    public function getNomeProduto()
     {
-        return $this->descricaoProduto;
+        return $this->nomeProduto;
     }
 
     /**
-     * @param string $descricaoProduto
+     * @param string $nomeProduto
      */
-    public function setDescricaoProduto($descricaoProduto)
+    public function setNomeProduto($nomeProduto)
     {
-        $this->descricaoProduto = $descricaoProduto;
+        $this->nomeProduto = $nomeProduto;
     }
 
     /**
@@ -83,8 +84,6 @@ class Produto extends EntityAbstract
     {
         $this->valorUnitario = $valorUnitario;
     }
-
-
 
 }
 

@@ -15,4 +15,9 @@ class PedidoDao extends DaoAbstract
 {
     protected $entityName = 'GerenciaEstoque\\Entity\\Pedido';
 
+    public function findAll()
+    {
+        $qb = $this->getCompleteQueryBuilder();
+        return $qb->getQuery()->getArrayResult();
+    }
 }

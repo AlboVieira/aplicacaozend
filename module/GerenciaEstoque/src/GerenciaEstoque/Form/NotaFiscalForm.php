@@ -2,29 +2,28 @@
 
 namespace GerenciaEstoque\Form;
 
-use Application\Constants\FormConst;
-use Application\Constants\ItemPedidoConst;
-use Application\Constants\ProdutoConst;
-use GerenciaEstoque\Entity\ItemPedido;
-use GerenciaEstoque\Service\PedidoService;
+use Application\Constants\NotaFiscalConst;
+use Application\Constants\PedidoConst;
+use GerenciaEstoque\Entity\NotaFiscal;
+use GerenciaEstoque\Service\NotaFiscalService;
 use Zend\Form\Form;
 use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
 
 /**
  * Class ProdutoForm.
  */
-class ItemPedidoForm extends Form
+class NotaFiscalForm extends Form
 {
     /**
      * Cria o formulario para grupo.
      */
-    public function __construct(PedidoService $service, $url = null)
+    public function __construct(NotaFiscalService $service, $url = null)
     {
-        parent::__construct('item_pedido_form');
+        parent::__construct('nota_fiscal_form');
 
         $this
             ->setHydrator(new ClassMethodsHydrator(false))
-            ->setObject(new ItemPedido());
+            ->setObject(new NotaFiscal());
 
         $this->setAttributes(array(
             'method' => 'post',
@@ -32,7 +31,7 @@ class ItemPedidoForm extends Form
         ));
 
         $this->add(array(
-            'name' => ItemPedidoConst::FLD_ID_PEDIDO,
+            'name' => NotaFiscalConst::FLD_ID_NOTA_FISCAL,
             'attributes' => array(
                 'type' => 'hidden',
                 'class' => '',
@@ -43,47 +42,57 @@ class ItemPedidoForm extends Form
         ));
 
         $this->add(array(
-            'name' => ItemPedidoConst::FLD_PEDIDO,
+            'name' => NotaFiscalConst::FLD_DATA,
             'attributes' => array(
-                'type' => 'hidden',
+                'type' => 'Date',
                 'class' => '',
             ),
             'options' => array(
-                'label' => '',
+                'label' => NotaFiscalConst::LBL_DATA,
             ),
         ));
 
         $this->add(array(
-            'name' => ItemPedidoConst::FLD_PRODUTO,
-            'type' => 'Zend\Form\Element\Select',
-            'attributes' => array(
-                'class' => '',
-            ),
-            'options' => array(
-                'label' => ItemPedidoConst::LBL_PRODUTO,
-                'empty_option' => FormConst::SELECT_OPTION_SELECIONE,
-                'value_options' =>
-                    $service->montarArrayNomeadoSelect(
-                        $service->getProdutos(),
-                        ProdutoConst::FLD_ID_PRODUTO,
-                        ProdutoConst::FLD_DESC_PRODUTO
-
-                    ),
-                'disable_inarray_validator' => true,
-            ),
-        ));
-
-        $this->add(array(
-            'name' => ItemPedidoConst::FLD_QTD,
+            'name' => NotaFiscalConst::FLD_NUMERO_NOTA,
             'attributes' => array(
                 'type' => 'number',
                 'class' => '',
             ),
             'options' => array(
-                'label' => ItemPedidoConst::LBL_QTD,
+                'label' => NotaFiscalConst::LBL_NUMERO_NOTA,
             ),
         ));
 
+        $this->add(array(
+            'name' => NotaFiscalConst::FLD_PEDIDO,
+            'attributes' => array(
+                'type' => 'number',
+                'class' => '',
+            ),
+            'options' => array(
+                'label' => NotaFiscalConst::LBL_PEDIDO,
+            ),
+        ));
+
+        $this->add(array(
+            'name' => NotaFiscalConst::FLD_PEDIDO,
+            'type' => 'Zend\Form\Element\Select',
+            'attributes' => array(
+                'class' => '',
+            ),
+            'options' => array(
+                'label' => NotaFiscalConst::LBL_PEDIDO,
+                'empty_option' => 'Selecione',
+                'value_options' =>
+                    $service->montarArrayNomeadoSelect(
+                        $service->getPedidos(),
+                        PedidoConst::FLD_ID_PEDIDO,
+                        PedidoConst::FLD_ID_PEDIDO
+
+                    ),
+                'disable_inarray_validator' => true,
+            ),
+        ));
 
 
         $this->add(array(

@@ -4,6 +4,8 @@ namespace GerenciaEstoque\Form;
 
 use Application\Constants\FornecedorConst;
 use Application\Constants\PedidoConst;
+use Application\Constants\ProdutoConst;
+use Application\Constants\UnidadeConst;
 use GerenciaEstoque\Entity\Pedido;
 use GerenciaEstoque\Service\PedidoService;
 use Zend\Form\Form;
@@ -63,6 +65,26 @@ class PedidoForm extends Form
         ));
 
         $this->add(array(
+            'name' => PedidoConst::FLD_PRODUTO,
+            'type' => 'Zend\Form\Element\Select',
+            'attributes' => array(
+                'class' => '',
+            ),
+            'options' => array(
+                'label' => PedidoConst::LBL_PRODUTO,
+                'empty_option' => 'Selecione',
+                'value_options' =>
+                    $service->montarArrayNomeadoSelect(
+                        $service->getProdutos(),
+                        ProdutoConst::FLD_ID_PRODUTO,
+                        ProdutoConst::FLD_DESC_PRODUTO
+
+                    ),
+                'disable_inarray_validator' => true,
+            ),
+        ));
+
+        $this->add(array(
             'name' => PedidoConst::FLD_DATA,
             'attributes' => array(
                 'type' => 'Date',
@@ -73,27 +95,35 @@ class PedidoForm extends Form
             ),
         ));
 
+
         $this->add(array(
-            'name' => PedidoConst::FLD_VALOR_TOTAL,
+            'name' => PedidoConst::FLD_QTD,
             'attributes' => array(
-                'type' => 'datetime',
+                'type' => 'number',
                 'class' => '',
-                'disabled' => 'disabled'
             ),
             'options' => array(
-                'label' => PedidoConst::LBL_VALOR_TOTAL,
+                'label' => PedidoConst::LBL_QTD,
             ),
         ));
 
         $this->add(array(
-            'name' => PedidoConst::FLD_STATUS,
+            'name' => PedidoConst::FLD_UNIDADE,
+            'type' => 'Zend\Form\Element\Select',
             'attributes' => array(
-                'type' => 'datetime',
                 'class' => '',
-                'disabled' => 'disabled'
             ),
             'options' => array(
-                'label' => PedidoConst::LBL_STATUS,
+                'label' => PedidoConst::LBL_UNIDADE,
+                'empty_option' => 'Selecione',
+                'value_options' =>
+                    array(
+                        UnidadeConst::KILO_ID => UnidadeConst::KILO,
+                        UnidadeConst::DEZENA_ID => UnidadeConst::DEZENA,
+                        UnidadeConst::CENTENA_ID => UnidadeConst::CENTENA,
+                        UnidadeConst::MILHAR_ID => UnidadeConst::MILHAR,
+                    ),
+                'disable_inarray_validator' => true,
             ),
         ));
 

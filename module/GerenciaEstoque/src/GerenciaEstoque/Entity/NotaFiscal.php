@@ -1,16 +1,17 @@
 <?php
 
-namespace Application\Entity;
+namespace GerenciaEstoque\Entity;
 
+use Application\Custom\EntityAbstract;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * NotasFiscais
+ * NotaFiscal
  *
- * @ORM\Table(name="notas_fiscais", indexes={@ORM\Index(name="fk_nota_pedido_idx", columns={"id_pedido"})})
+ * @ORM\Table(name="nota_fiscal", indexes={@ORM\Index(name="fk_nota_pedido_idx", columns={"id_pedido"})})
  * @ORM\Entity
  */
-class NotasFiscais
+class NotaFiscal extends EntityAbstract
 {
     /**
      * @var integer
@@ -29,18 +30,11 @@ class NotasFiscais
     private $numeroNota;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="valor_nota", type="decimal", precision=10, scale=0, nullable=false)
-     */
-    private $valorNota;
-
-    /**
      * @var \DateTime
      *
-     * @ORM\Column(name="data_emissao", type="datetime", nullable=false)
+     * @ORM\Column(name="data", type="date", nullable=false)
      */
-    private $dataEmissao;
+    private $data;
 
     /**
      * @var \GerenciaEstoque\Entity\Pedido
@@ -85,35 +79,19 @@ class NotasFiscais
     }
 
     /**
-     * @return string
-     */
-    public function getValorNota()
-    {
-        return $this->valorNota;
-    }
-
-    /**
-     * @param string $valorNota
-     */
-    public function setValorNota($valorNota)
-    {
-        $this->valorNota = $valorNota;
-    }
-
-    /**
      * @return \DateTime
      */
-    public function getDataEmissao()
+    public function getData()
     {
-        return $this->dataEmissao;
+        return $this->data;
     }
 
     /**
-     * @param \DateTime $dataEmissao
+     * @param \DateTime $data
      */
-    public function setDataEmissao($dataEmissao)
+    public function setData($data)
     {
-        $this->dataEmissao = $dataEmissao;
+        $this->data = new \DateTime($data);
     }
 
     /**

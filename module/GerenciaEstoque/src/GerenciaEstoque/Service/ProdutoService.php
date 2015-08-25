@@ -77,12 +77,13 @@ class ProdutoService extends ServiceAbstract
         //$paramsPost = $jqgrid->getParametrosFromPost();
         $rows = $jqgrid->getDatatableArray();
 
+
         $dados = [];
         foreach($rows[JqGridConst::PARAM_REGISTROS] as $row){
             /** @var Produto $produto */
             $produto = $row;
             $temp[ProdutoConst::FLD_ID_PRODUTO] = (string) $produto->getIdProduto();
-            $temp[ProdutoConst::FLD_DESC_PRODUTO] = $produto->getDescricaoProduto();
+            $temp[ProdutoConst::FLD_DESC_PRODUTO] = $produto->getNomeProduto();
             $temp[ProdutoConst::FLD_VAL_UNITARIO] = (string) $produto->getValorUnitario();
 
             $botaoEditar = new JqGridButton();

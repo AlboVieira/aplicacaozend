@@ -14,7 +14,7 @@ interface ProdutoConst
     const LBL_ID_PRODUTO = 'Id';
 
 
-    const FLD_DESC_PRODUTO = 'descricaoProduto';
+    const FLD_DESC_PRODUTO = 'nomeProduto';
     const LBL_DESC_PRODUTO = 'Descricao';
 
     const FLD_VAL_UNITARIO = 'valorUnitario';

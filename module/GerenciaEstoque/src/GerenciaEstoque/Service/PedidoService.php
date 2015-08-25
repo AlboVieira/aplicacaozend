@@ -34,11 +34,11 @@ class PedidoService extends ServiceAbstract
         $dao = $this->getFromServiceLocator(PedidoConst::DAO);
 
         $fornecedor = $this->getFromServiceLocator(FornecedorConst::DAO)->getEntity($pedido->getIdFornecedor());
+        $produto = $this->getFromServiceLocator(ProdutoConst::DAO)->getEntity($pedido->getIdProduto());
         $pedido->setIdFornecedor($fornecedor);
+        $pedido->setIdProduto($produto);
 
-        if (!$isEdit) {
-            $pedido->setStatus('A');
-        }
+        $pedido->setValorTotal($produto->getValorUnitario() * $pedido->getQuantidade());
 
         $dao->save($pedido);
 
@@ -48,7 +48,7 @@ class PedidoService extends ServiceAbstract
     public function excluir($id)
     {
         /** @var FornecedorDao $dao */
-        $dao = $this->getFromServiceLocator(FornecedorConst::DAO);
+        $dao = $this->getFromServiceLocator(PedidoConsta::DAO);
         $pedido = $dao->getEntity($id);
         return $dao->remove($pedido);
     }
@@ -66,14 +66,17 @@ class PedidoService extends ServiceAbstract
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
             PedidoConst::LBL_ID_PEDIDO, JqGridConst::NAME => PedidoConst::FLD_ID_PEDIDO, JqGridConst::WIDTH => 100));
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            PedidoConst::LBL_FORNECEDOR, JqGridConst::NAME => PedidoConst::FLD_FORNECEDOR, JqGridConst::WIDTH => 400));
+            PedidoConst::LBL_FORNECEDOR, JqGridConst::NAME => PedidoConst::FLD_FORNECEDOR, JqGridConst::WIDTH => 200));
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
             PedidoConst::LBL_DATA, JqGridConst::NAME => PedidoConst::FLD_DATA, JqGridConst::WIDTH => 150));
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            PedidoConst::LBL_VALOR_TOTAL, JqGridConst::NAME => PedidoConst::FLD_VALOR_TOTAL, JqGridConst::WIDTH => 150));
+            PedidoConst::LBL_PRODUTO, JqGridConst::NAME => PedidoConst::FLD_PRODUTO, JqGridConst::WIDTH => 150));
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            PedidoConst::LBL_STATUS, JqGridConst::NAME => PedidoConst::FLD_STATUS, JqGridConst::WIDTH => 80));
-
+            PedidoConst::LBL_QTD, JqGridConst::NAME => PedidoConst::FLD_QTD, JqGridConst::WIDTH => 150));
+        $jqgrid->addColunas(array(JqGridConst::LABEL =>
+            PedidoConst::LBL_UNIDADE, JqGridConst::NAME => PedidoConst::FLD_UNIDADE, JqGridConst::WIDTH => 150));
+        $jqgrid->addColunas(array(JqGridConst::LABEL =>
+            PedidoConst::LBL_VALOR_TOTAL, JqGridConst::NAME => PedidoConst::FLD_VALOR_TOTAL, JqGridConst::WIDTH => 150));
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
             'Acao', JqGridConst::NAME => 'acao', JqGridConst::WIDTH => 60, JqGridConst::CLASSCSS => 'text-center'));
 
@@ -106,7 +109,9 @@ class PedidoService extends ServiceAbstract
             $temp[PedidoConst::FLD_ID_PEDIDO] = (string)$idPedido;
             $temp[PedidoConst::FLD_FORNECEDOR] = $pedido->getIdFornecedor()->getNomeFornecedor();
             $temp[PedidoConst::FLD_DATA] = date_format($pedido->getData(), 'd/m/Y');
-            $temp[PedidoConst::FLD_STATUS] = $pedido->getStatus(true);
+            $temp[PedidoConst::FLD_UNIDADE] = $pedido->getUnidade();
+            $temp[PedidoConst::FLD_PRODUTO] = $pedido->getIdProduto()->getNomeProduto();
+            $temp[PedidoConst::FLD_QTD] = $pedido->getQuantidade();
             $temp[PedidoConst::FLD_VALOR_TOTAL] = (string)$pedido->getValorTotal() ? $pedido->getValorTotal() : '0.0';
 
             $botaoEditar = new JqGridButton();
@@ -132,79 +137,6 @@ class PedidoService extends ServiceAbstract
         return $rows;
     }
 
-    public function getGridItemPedido($id)
-    {
-        $jqgrid = new JqGridTable();
-        $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            ItemPedidoConst::LBL_ID_PEDIDO, JqGridConst::NAME => PedidoConst::FLD_ID_PEDIDO, JqGridConst::WIDTH => 100));
-        $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            ItemPedidoConst::LBL_PRODUTO, JqGridConst::NAME => ItemPedidoConst::FLD_PRODUTO, JqGridConst::WIDTH => 400));
-        $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            ItemPedidoConst::LBL_QTD, JqGridConst::NAME => ItemPedidoConst::FLD_QTD, JqGridConst::WIDTH => 150));
-        $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            ItemPedidoConst::LBL_PEDIDO, JqGridConst::NAME => ItemPedidoConst::FLD_PEDIDO, JqGridConst::WIDTH => 150));
-        $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            ItemPedidoConst::LBL_VALOR, JqGridConst::NAME => ItemPedidoConst::FLD_VALOR, JqGridConst::WIDTH => 150));
-
-        $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            'Acao', JqGridConst::NAME => 'acao', JqGridConst::WIDTH => 60, JqGridConst::CLASSCSS => 'text-center'));
-
-        $jqgrid->setUrl('/pedido/getDadosItemPedido/' . $id);
-        $jqgrid->setTitle('Itens do Pedido');
-
-        return $jqgrid->renderJs();
-    }
-
-    public function getGridDadosItemPedido($idItemPedido)
-    {
-        /** @var ItemPedidoDao $dao */
-        $dao = $this->getFromServiceLocator(ItemPedidoConst::DAO);
-
-        $qb = $dao->getQbItemPedido($idItemPedido);
-
-        $jqgrid = new JqGridTable();
-        $jqgrid->setAlias('i');
-        $jqgrid->setQuery($qb);
-
-        //$paramsPost = $jqgrid->getParametrosFromPost();
-        $rows = $jqgrid->getDatatableArray();
-
-
-        $dados = [];
-        foreach ($rows[JqGridConst::PARAM_REGISTROS] as $row) {
-            /** @var ItemPedido $itemPedido */
-            $itemPedido = $row;
-
-
-            $idItemPedido = $itemPedido->getId();
-            $temp[ItemPedidoConst::FLD_ID_PEDIDO] = $idItemPedido;
-            $temp[ItemPedidoConst::FLD_PRODUTO] = $itemPedido->getIdProduto()->getDescricaoProduto();
-            $temp[ItemPedidoConst::FLD_QTD] = $itemPedido->getQuantidade();
-            $temp[ItemPedidoConst::FLD_PEDIDO] = $itemPedido->getIdPedido()->getIdPedido();
-            $temp[ItemPedidoConst::FLD_VALOR] = $itemPedido->getQuantidade() * $itemPedido->getIdProduto()->getValorUnitario();
-
-            $botaoEditar = new JqGridButton();
-            $botaoEditar->setTitle('Editar');
-            $botaoEditar->setClass('btn btn-primary btn-xs');
-            //$botaoEditar->setUrl('/pedido/editar/' . $idItemPedido);
-            $botaoEditar->setIcon('glyphicon glyphicon-edit');
-
-            $botaoExcluir = new JqGridButton();
-            $botaoExcluir->setTitle('Excluir');
-            $botaoExcluir->setClass('btn btn-danger btn-xs');
-            //$botaoExcluir->setUrl('/pedido/excluir/' . $idItemPedido);
-            $botaoExcluir->setIcon('glyphicon glyphicon-trash');
-            //$botaoExcluir->getOnClick();
-
-            $temp[JqGridConst::ACAO] = "<div class='agrupa-botoes'>" . $botaoEditar->render() . $botaoExcluir->render() .
-                "</div>";
-
-            $dados[] = $temp;
-        }
-        $rows[JqGridConst::PARAM_REGISTROS] = $dados;
-
-        return $rows;
-    }
 
     public function getFornecedores()
     {

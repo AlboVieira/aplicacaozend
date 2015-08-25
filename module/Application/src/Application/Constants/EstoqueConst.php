@@ -23,3 +23,4 @@ interface EstoqueConst
     const FLD_NOTA_FISCAL = 'nota_fiscal';
     const LBL_NOTA_FISCAL = 'Nota Fiscal';
 }
+

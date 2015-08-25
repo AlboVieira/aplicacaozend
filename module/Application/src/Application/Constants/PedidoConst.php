@@ -20,9 +20,15 @@ interface PedidoConst
     const FLD_VALOR_TOTAL = 'valorTotal';
     const LBL_VALOR_TOTAL = 'Valor Pedido';
 
+    const FLD_PRODUTO = 'idProduto';
+    const LBL_PRODUTO = 'Produto';
+
     const FLD_FORNECEDOR = 'idFornecedor';
     const LBL_FORNECEDOR = 'Fornecedor';
 
-    const FLD_STATUS = 'status';
-    const LBL_STATUS = 'Status';
+    const FLD_QTD = 'quantidade';
+    const LBL_QTD = 'Quantidade';
+
+    const FLD_UNIDADE = 'unidade';
+    const LBL_UNIDADE = 'Unidade';
 }

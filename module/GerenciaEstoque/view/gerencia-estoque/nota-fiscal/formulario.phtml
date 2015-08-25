@@ -1,0 +1,21 @@
+<?php
+
+echo $this->form(null, \TwbBundle\Form\View\Helper\TwbBundleForm::LAYOUT_HORIZONTAL)->openTag($this->form);
+$this->form->prepare();
+
+?>
+<div class="form-group">
+    <?php echo $this->formRow($this->form->get(\Application\Constants\NotaFiscalConst::FLD_NUMERO_NOTA)); ?>
+    <?php echo $this->formRow($this->form->get(\Application\Constants\NotaFiscalConst::FLD_ID_NOTA_FISCAL)); ?>
+    <?php echo $this->formRow($this->form->get(\Application\Constants\NotaFiscalConst::FLD_DATA)); ?>
+    <?php echo $this->formRow($this->form->get(\Application\Constants\NotaFiscalConst::FLD_PEDIDO)); ?>
+</div>
+
+<div class="row botoesacao">
+    <?php echo $this->formButton($this->form->get('btn_salvar')); ?>
+    <?php echo $this->formButton($this->form->get('btn_cancelar')); ?>
+
+</div>
+
+<?php echo $this->form()->closeTag(); ?>
+

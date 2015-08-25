@@ -32,7 +32,7 @@ class Fornecedor extends EntityAbstract
     /**
      * @var string
      *
-     * @ORM\Column(name="cnpj", type="string", length=14, nullable=false)
+     * @ORM\Column(name="cnpj", type="string", length=45, nullable=false)
      */
     private $cnpj;
 
