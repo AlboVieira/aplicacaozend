@@ -10,14 +10,17 @@
 namespace GerenciaEstoque\Dao;
 
 use Application\Custom\DaoAbstract;
+use Doctrine\ORM\Query\Expr;
 
 class PedidoDao extends DaoAbstract
 {
     protected $entityName = 'GerenciaEstoque\\Entity\\Pedido';
 
-    public function findAll()
+    public function findPedidosSemNota()
     {
-        $qb = $this->getCompleteQueryBuilder();
+        $qb = $this->getCompleteQueryBuilder()
+            ->leftJoin('GerenciaEstoque\Entity\NotaFiscal', 'nota', 'WITH', 'p.idPedido = nota.idPedido')
+            ->andWhere('nota.idPedido IS NULL');
         return $qb->getQuery()->getArrayResult();
     }
 }

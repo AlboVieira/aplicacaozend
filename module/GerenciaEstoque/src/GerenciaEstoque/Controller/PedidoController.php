@@ -114,8 +114,8 @@ class PedidoController extends ActionControllerAbstract
                 try {
                     if ($service->salvar($form->getData(), $isEdit = null)) {
                         $this->flashMessenger()->addSuccessMessage(MensagemConst::CADASTRO_SUCESSO);
-                        $form->setData($post);
-                        //return $this->redirect()->toRoute('fornecedor');
+                        //$form->setData($post);
+                        return $this->redirect()->toRoute('pedido');
                     } else {
                         $this->flashMessenger()->addErrorMessage(MensagemConst::OCORREU_UM_ERRO);
 

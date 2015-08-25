@@ -7,6 +7,7 @@ $this->form->prepare();
 <div class="form-group">
 
     <?php echo $this->formRow($this->form->get(\Application\Constants\PedidoConst::FLD_ID_PEDIDO)); ?>
+    <?php echo $this->formRow($this->form->get(\Application\Constants\PedidoConst::FLD_DESCRICAO)); ?>
     <?php echo $this->formRow($this->form->get(\Application\Constants\PedidoConst::FLD_PRODUTO)); ?>
     <?php echo $this->formRow($this->form->get(\Application\Constants\PedidoConst::FLD_FORNECEDOR)); ?>
     <?php echo $this->formRow($this->form->get(\Application\Constants\PedidoConst::FLD_DATA)); ?>

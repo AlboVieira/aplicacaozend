@@ -64,21 +64,23 @@ class PedidoService extends ServiceAbstract
     {
         $jqgrid = new JqGridTable();
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            PedidoConst::LBL_ID_PEDIDO, JqGridConst::NAME => PedidoConst::FLD_ID_PEDIDO, JqGridConst::WIDTH => 100));
+            PedidoConst::LBL_ID_PEDIDO, JqGridConst::NAME => PedidoConst::FLD_ID_PEDIDO, JqGridConst::WIDTH => 60));
+        $jqgrid->addColunas(array(JqGridConst::LABEL =>
+            PedidoConst::LBL_DESCRICAO, JqGridConst::NAME => PedidoConst::FLD_DESCRICAO, JqGridConst::WIDTH => 200));
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
             PedidoConst::LBL_FORNECEDOR, JqGridConst::NAME => PedidoConst::FLD_FORNECEDOR, JqGridConst::WIDTH => 200));
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            PedidoConst::LBL_DATA, JqGridConst::NAME => PedidoConst::FLD_DATA, JqGridConst::WIDTH => 150));
+            PedidoConst::LBL_DATA, JqGridConst::NAME => PedidoConst::FLD_DATA, JqGridConst::WIDTH => 100));
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
             PedidoConst::LBL_PRODUTO, JqGridConst::NAME => PedidoConst::FLD_PRODUTO, JqGridConst::WIDTH => 150));
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            PedidoConst::LBL_QTD, JqGridConst::NAME => PedidoConst::FLD_QTD, JqGridConst::WIDTH => 150));
+            PedidoConst::LBL_QTD, JqGridConst::NAME => PedidoConst::FLD_QTD, JqGridConst::WIDTH => 110));
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            PedidoConst::LBL_UNIDADE, JqGridConst::NAME => PedidoConst::FLD_UNIDADE, JqGridConst::WIDTH => 150));
+            PedidoConst::LBL_UNIDADE, JqGridConst::NAME => PedidoConst::FLD_UNIDADE, JqGridConst::WIDTH => 80));
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            PedidoConst::LBL_VALOR_TOTAL, JqGridConst::NAME => PedidoConst::FLD_VALOR_TOTAL, JqGridConst::WIDTH => 150));
+            PedidoConst::LBL_VALOR_TOTAL, JqGridConst::NAME => PedidoConst::FLD_VALOR_TOTAL, JqGridConst::WIDTH => 110));
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            'Acao', JqGridConst::NAME => 'acao', JqGridConst::WIDTH => 60, JqGridConst::CLASSCSS => 'text-center'));
+            'Acao', JqGridConst::NAME => 'acao', JqGridConst::WIDTH => 80, JqGridConst::CLASSCSS => 'text-center'));
 
         $jqgrid->setUrl(self::URL_GET_DADOS);
         $jqgrid->setTitle('Pedidos');
@@ -107,6 +109,7 @@ class PedidoService extends ServiceAbstract
             $pedido = $row;
             $idPedido = $pedido->getIdPedido();
             $temp[PedidoConst::FLD_ID_PEDIDO] = (string)$idPedido;
+            $temp[PedidoConst::FLD_DESCRICAO] = $pedido->getDescricao();
             $temp[PedidoConst::FLD_FORNECEDOR] = $pedido->getIdFornecedor()->getNomeFornecedor();
             $temp[PedidoConst::FLD_DATA] = date_format($pedido->getData(), 'd/m/Y');
             $temp[PedidoConst::FLD_UNIDADE] = $pedido->getUnidade();

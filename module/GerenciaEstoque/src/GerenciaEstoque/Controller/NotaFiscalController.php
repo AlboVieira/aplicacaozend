@@ -64,16 +64,16 @@ class NotaFiscalController extends ActionControllerAbstract
             $form->setData($post);
 
             if ($form->isValid()) {
-                // try {
-                if ($notaFiscal = $service->salvar($form->getData())) {
-                    $this->flashMessenger()->addSuccessMessage(MensagemConst::CADASTRO_SUCESSO);
-                    $this->redirect()->toUrl('/nota-fiscal/editar/' . $notaFiscal->getIdNotaFiscal());
-                } else {
+                try {
+                    if ($notaFiscal = $service->salvar($form->getData())) {
+                        $this->flashMessenger()->addSuccessMessage(MensagemConst::CADASTRO_SUCESSO);
+                        //$this->redirect()->toUrl('/nota-fiscal/editar/' . $notaFiscal->getIdNotaFiscal());
+                    } else {
+                        $this->flashMessenger()->addErrorMessage(MensagemConst::OCORREU_UM_ERRO);
+                    }
+                } catch (\Exception $e) {
                     $this->flashMessenger()->addErrorMessage(MensagemConst::OCORREU_UM_ERRO);
                 }
-                //  } catch (\Exception $e) {
-                //      $this->flashMessenger()->addErrorMessage(MensagemConst::OCORREU_UM_ERRO);
-                //  }
             }
 
         }
@@ -112,7 +112,7 @@ class NotaFiscalController extends ActionControllerAbstract
                     if ($service->salvar($form->getData())) {
                         $this->flashMessenger()->addSuccessMessage(MensagemConst::CADASTRO_SUCESSO);
                         $form->setData($post);
-                        //return $this->redirect()->toRoute('fornecedor');
+                        return $this->redirect()->toRoute('nota-fiscal');
                     } else {
                         $this->flashMessenger()->addErrorMessage(MensagemConst::OCORREU_UM_ERRO);
 

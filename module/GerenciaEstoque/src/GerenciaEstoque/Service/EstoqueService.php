@@ -11,7 +11,6 @@ namespace GerenciaEstoque\Service;
 use Application\Constants\EstoqueConst;
 use Application\Constants\JqGridConst;
 use Application\Custom\ServiceAbstract;
-use Application\Entity\Estoque;
 use Application\Util\JqGridTable;
 use GerenciaEstoque\Dao\EstoqueDao;
 
@@ -21,43 +20,17 @@ class EstoqueService extends ServiceAbstract
 {
     const URL_GET_DADOS = '/estoque/getDados';
 
-    public function salvar(Estoque $estoque)
-    {
-
-        /** @var EstoqueDao $dao */
-        $dao = $this->getFromServiceLocator(EstoqueConst::DAO);
-        $dao->save($estoque);
-
-        return $estoque;
-    }
-
-    public function excluir($produtoid)
-    {
-        /** @var EstoqueDao $dao */
-        $dao = $this->getFromServiceLocator(EstoqueConst::DAO);
-        $produto = $dao->getEntity($produtoid);
-        return $dao->remove($produto);
-    }
-
-    public function getProduto($id)
-    {
-        /** @var ProdutoDao $dao */
-        $dao = $this->getFromServiceLocator(EstoqueConst::DAO);
-        return $dao->getEntity($id);
-    }
 
     public function getGrid()
     {
 
         $jqgrid = new JqGridTable();
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            EstoqueConst::LBL_ID_ESTOQUE, JqGridConst::NAME => EstoqueConst::FLD_ID_ESTOQUE, JqGridConst::WIDTH => 200));
-        $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            EstoqueConst::LBL_ID_PRODUTO, JqGridConst::NAME => EstoqueConst::LBL_ID_PRODUTO, JqGridConst::WIDTH => 400));
+            EstoqueConst::LBL_ID_PRODUTO, JqGridConst::NAME => EstoqueConst::FLD_ID_PRODUTO, JqGridConst::WIDTH => 400));
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
             EstoqueConst::LBL_QTD_PRODUTO, JqGridConst::NAME => EstoqueConst::FLD_QTD_PRODUTO, JqGridConst::WIDTH => 150));
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            EstoqueConst::LBL_NOTA_FISCAL, JqGridConst::NAME => EstoqueConst::FLD_NOTA_FISCAL, JqGridConst::WIDTH => 150));
+            EstoqueConst::LBL_NOTA, JqGridConst::NAME => EstoqueConst::FLD_NOTA, JqGridConst::WIDTH => 150));
 
         $jqgrid->setUrl(self::URL_GET_DADOS);
         $jqgrid->setTitle('Estoque');
@@ -82,12 +55,12 @@ class EstoqueService extends ServiceAbstract
 
         $dados = [];
         foreach ($rows[JqGridConst::PARAM_REGISTROS] as $row) {
-            /** @var Estoque $estoque */
+            /** @var \GerenciaEstoque\Entity\Estoque $estoque */
             $estoque = $row;
+            $temp[EstoqueConst::FLD_ID_PRODUTO] = $estoque->getIdProduto()->getNomeProduto();
+            $temp[EstoqueConst::FLD_QTD_PRODUTO] = (string)$estoque->getQuantidade();
+            $temp[EstoqueConst::FLD_NOTA] = (string)$estoque->getIdNotaFiscal()->getNumeroNota();
 
-            $temp[EstoqueConst::FLD_ID_ESTOQUE] = (string)$estoque->getId();
-            $temp[EstoqueConst::FLD_ID_PRODUTO] = $estoque->getIdProduto();
-            $temp[EstoqueConst::FLD_QTD_PRODUTO] = (string)$estoque->getValorUnitario();
 
             $dados[] = $temp;
         }

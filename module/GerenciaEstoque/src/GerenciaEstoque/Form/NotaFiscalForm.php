@@ -87,7 +87,7 @@ class NotaFiscalForm extends Form
                     $service->montarArrayNomeadoSelect(
                         $service->getPedidos(),
                         PedidoConst::FLD_ID_PEDIDO,
-                        PedidoConst::FLD_ID_PEDIDO
+                        PedidoConst::FLD_DESCRICAO
 
                     ),
                 'disable_inarray_validator' => true,

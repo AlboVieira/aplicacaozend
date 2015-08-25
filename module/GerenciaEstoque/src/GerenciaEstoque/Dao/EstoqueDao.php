@@ -21,6 +21,7 @@ class EstoqueDao extends DaoAbstract
             ->where($this->alias . DaoAbstract::TABLE_COLUMN_SEPARATOR . 'idProduto = :id')
             ->setParameter('id', $idproduto);
 
+
         if ($qb->getQuery()->getMaxResults()) {
             return true;
         }

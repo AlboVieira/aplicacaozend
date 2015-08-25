@@ -43,6 +43,17 @@ class PedidoForm extends Form
             ),
         ));
 
+        $this->add(array(
+            'name' => PedidoConst::FLD_DESCRICAO,
+            'attributes' => array(
+                'type' => 'text',
+                'class' => '',
+            ),
+            'options' => array(
+                'label' => PedidoConst::LBL_DESCRICAO,
+            ),
+        ));
+
 
         $this->add(array(
             'name' => PedidoConst::FLD_FORNECEDOR,

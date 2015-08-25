@@ -23,11 +23,19 @@ class Pedido extends EntityAbstract
     private $idPedido;
 
     /**
-     * @var string
+     * @var float
      *
      * @ORM\Column(name="valor_total", type="decimal", precision=10, scale=2, nullable=false)
      */
     private $valorTotal;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descricao", type="string", nullable=false)
+     */
+    private $descricao;
+
 
     /**
      * @var \DateTime
@@ -182,6 +190,21 @@ class Pedido extends EntityAbstract
         $this->idProduto = $idProduto;
     }
 
+    /**
+     * @return string
+     */
+    public function getDescricao()
+    {
+        return $this->descricao;
+    }
+
+    /**
+     * @param string $descricao
+     */
+    public function setDescricao($descricao)
+    {
+        $this->descricao = $descricao;
+    }
 
 
 

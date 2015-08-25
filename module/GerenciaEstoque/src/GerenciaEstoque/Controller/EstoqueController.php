@@ -33,7 +33,7 @@ class EstoqueController extends ActionControllerAbstract
     {
 
         /** @var EstoqueService $service */
-        $service = $this->getFromServiceLocator(ProdutoConst::SERVICE);
+        $service = $this->getFromServiceLocator(EstoqueConst::SERVICE);
         $grid = $service->getGridDados();
 
         return new JsonModel($grid);

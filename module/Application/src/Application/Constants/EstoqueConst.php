@@ -20,7 +20,10 @@ interface EstoqueConst
     const FLD_QTD_PRODUTO = 'quantidade_estoque';
     const LBL_QTD_PRODUTO = 'Quantidade Estoque';
 
-    const FLD_NOTA_FISCAL = 'nota_fiscal';
-    const LBL_NOTA_FISCAL = 'Nota Fiscal';
+    const FLD_NOTA = 'idNotaFiscal';
+    const LBL_NOTA = 'Nota Fiscal';
+
+    const FLD_PRODUTO_ESTOQUE_MEDIA = 'media';
+    const LBL_PRODUTO_ESTOQUE_MEDIA = 'Média/Gasto';
 }
 

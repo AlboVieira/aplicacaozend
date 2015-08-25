@@ -13,6 +13,9 @@ interface PedidoConst
     const FLD_ID_PEDIDO = 'idPedido';
     const LBL_ID_PEDIDO = 'Id';
 
+    const FLD_DESCRICAO = 'descricao';
+    const LBL_DESCRICAO = 'Descricao';
+
 
     const FLD_DATA = 'data';
     const LBL_DATA = 'Data';

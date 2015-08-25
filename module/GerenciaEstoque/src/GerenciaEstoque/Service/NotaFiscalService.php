@@ -35,23 +35,33 @@ class NotaFiscalService extends ServiceAbstract
         /** @var NotaFiscalDao $dao */
         $dao = $this->getFromServiceLocator(NotaFiscalConst::DAO);
 
+
+        //somente um pedido por nota
+        if ($dao->existePedido($notaFiscal->getIdPedido())) {
+            return false;
+        }
+
         $pedido = $this->getFromServiceLocator(PedidoConst::DAO)->getEntity($notaFiscal->getIdPedido());
         $notaFiscal->setIdPedido($pedido);
 
-        if ($dao->save($notaFiscal)) {
+        if ($notaFiscal = $dao->save($notaFiscal)) {
 
-            /** @var EstoqueDao $dao */
+            /** @var EstoqueDao $estoqueDao */
             $estoqueDao = $this->getFromServiceLocator(EstoqueConst::DAO);
-            $idProduto = $pedido->getIdProduto()->getIdProduto();
+            $idProduto = $notaFiscal->getIdPedido()->getIdProduto()->getIdProduto();
 
-            if ($estoqueDao->verificaProdutoEmEstoque($idProduto)) {
+            if (!$estoqueDao->verificaProdutoEmEstoque($idProduto)) {
                 /** @var Estoque $estoque */
                 $estoque = $estoqueDao->getEntity();
-                $estoque->setIdProduto($pedido->getIdProduto());
-                $estoque->setQuantidade($pedido->getQuantidade());
+                $estoque->setIdProduto($notaFiscal->getIdPedido()->getIdProduto());
+                $estoque->setQuantidade($notaFiscal->getIdPedido()->getQuantidade());
+                $estoque->setIdNotaFiscal($notaFiscal);
                 $estoqueDao->save($estoque);
             }
+
         }
+
+
         return $notaFiscal;
     }
 
@@ -91,7 +101,7 @@ class NotaFiscalService extends ServiceAbstract
             'Acao', JqGridConst::NAME => 'acao', JqGridConst::WIDTH => 60, JqGridConst::CLASSCSS => 'text-center'));
 
         $jqgrid->setUrl(self::URL_GET_DADOS);
-        $jqgrid->setTitle('Pedidos');
+        $jqgrid->setTitle('Nota Fiscal');
 
         return $jqgrid->renderJs();
     }
@@ -151,6 +161,6 @@ class NotaFiscalService extends ServiceAbstract
     {
         /** @var PedidoDao $dao */
         $dao = $this->getFromServiceLocator(PedidoConst::DAO);
-        return $dao->findAll();
+        return $dao->findPedidosSemNota();
     }
 }

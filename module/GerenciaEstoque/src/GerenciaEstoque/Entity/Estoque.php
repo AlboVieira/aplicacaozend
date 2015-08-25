@@ -1,14 +1,13 @@
 <?php
 
 namespace GerenciaEstoque\Entity;
-
 use Application\Custom\EntityAbstract;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Estoque
  *
- * @ORM\Table(name="estoque", indexes={@ORM\Index(name="fk_estoque_produto_idx", columns={"id_produto"})})
+ * @ORM\Table(name="estoque", indexes={@ORM\Index(name="fk_estoque_produto_idx", columns={"id_produto"}), @ORM\Index(name="fk_estoque_nota_idx", columns={"id_nota_fiscal"})})
  * @ORM\Entity
  */
 class Estoque extends EntityAbstract
@@ -23,6 +22,23 @@ class Estoque extends EntityAbstract
     private $idEstoque;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="quantidade", type="float", precision=10, scale=0, nullable=false)
+     */
+    private $quantidade;
+
+    /**
+     * @var \GerenciaEstoque\Entity\NotaFiscal
+     *
+     * @ORM\ManyToOne(targetEntity="GerenciaEstoque\Entity\NotaFiscal")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_nota_fiscal", referencedColumnName="id_nota_fiscal")
+     * })
+     */
+    private $idNotaFiscal;
+
+    /**
      * @var \GerenciaEstoque\Entity\Produto
      *
      * @ORM\ManyToOne(targetEntity="GerenciaEstoque\Entity\Produto")
@@ -31,13 +47,6 @@ class Estoque extends EntityAbstract
      * })
      */
     private $idProduto;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="quantidade", type="integer", nullable=false)
-     */
-    private $quantidade;
 
     /**
      * @return int
@@ -56,23 +65,7 @@ class Estoque extends EntityAbstract
     }
 
     /**
-     * @return Produto
-     */
-    public function getIdProduto()
-    {
-        return $this->idProduto;
-    }
-
-    /**
-     * @param Produto $idProduto
-     */
-    public function setIdProduto($idProduto)
-    {
-        $this->idProduto = $idProduto;
-    }
-
-    /**
-     * @return int
+     * @return float
      */
     public function getQuantidade()
     {
@@ -80,11 +73,43 @@ class Estoque extends EntityAbstract
     }
 
     /**
-     * @param int $quantidade
+     * @param float $quantidade
      */
     public function setQuantidade($quantidade)
     {
         $this->quantidade = $quantidade;
+    }
+
+    /**
+     * @return \Application\
+     */
+    public function getIdNotaFiscal()
+    {
+        return $this->idNotaFiscal;
+    }
+
+    /**
+     * @param \Application\ $idNotaFiscal
+     */
+    public function setIdNotaFiscal($idNotaFiscal)
+    {
+        $this->idNotaFiscal = $idNotaFiscal;
+    }
+
+    /**
+     * @return \Application\
+     */
+    public function getIdProduto()
+    {
+        return $this->idProduto;
+    }
+
+    /**
+     * @param \Application\ $idProduto
+     */
+    public function setIdProduto($idProduto)
+    {
+        $this->idProduto = $idProduto;
     }
 
 
