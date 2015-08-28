@@ -80,6 +80,7 @@ class FornecedorService extends ServiceAbstract
         $jqgrid->setQuery($qb);
 
         //$paramsPost = $jqgrid->getParametrosFromPost();
+        $jqgrid->setParametrosRequest();
         $rows = $jqgrid->getDatatableArray();
 
         $dados = [];

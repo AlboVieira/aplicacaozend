@@ -26,11 +26,13 @@ class EstoqueService extends ServiceAbstract
 
         $jqgrid = new JqGridTable();
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
-            EstoqueConst::LBL_ID_PRODUTO, JqGridConst::NAME => EstoqueConst::FLD_ID_PRODUTO, JqGridConst::WIDTH => 400));
+            EstoqueConst::LBL_ID_PRODUTO, JqGridConst::NAME => EstoqueConst::FLD_ID_PRODUTO, JqGridConst::WIDTH => 200));
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
             EstoqueConst::LBL_QTD_PRODUTO, JqGridConst::NAME => EstoqueConst::FLD_QTD_PRODUTO, JqGridConst::WIDTH => 150));
         $jqgrid->addColunas(array(JqGridConst::LABEL =>
             EstoqueConst::LBL_NOTA, JqGridConst::NAME => EstoqueConst::FLD_NOTA, JqGridConst::WIDTH => 150));
+        $jqgrid->addColunas(array(JqGridConst::LABEL =>
+            EstoqueConst::LBL_PRODUTO_ESTOQUE_MEDIA, JqGridConst::NAME => EstoqueConst::FLD_PRODUTO_ESTOQUE_MEDIA, JqGridConst::WIDTH => 150));
 
         $jqgrid->setUrl(self::URL_GET_DADOS);
         $jqgrid->setTitle('Estoque');
@@ -50,7 +52,8 @@ class EstoqueService extends ServiceAbstract
         $jqgrid->setAlias('e');
         $jqgrid->setQuery($qb);
 
-        //$paramsPost = $jqgrid->getParametrosFromPost();
+        $jqgrid->setParametrosRequest();
+
         $rows = $jqgrid->getDatatableArray();
 
         $dados = [];
@@ -60,6 +63,9 @@ class EstoqueService extends ServiceAbstract
             $temp[EstoqueConst::FLD_ID_PRODUTO] = $estoque->getIdProduto()->getNomeProduto();
             $temp[EstoqueConst::FLD_QTD_PRODUTO] = (string)$estoque->getQuantidade();
             $temp[EstoqueConst::FLD_NOTA] = (string)$estoque->getIdNotaFiscal()->getNumeroNota();
+
+            $temp[EstoqueConst::FLD_PRODUTO_ESTOQUE_MEDIA] =
+                $estoque->getIdNotaFiscal()->getIdPedido()->getValorTotal() / $estoque->getQuantidade();
 
 
             $dados[] = $temp;

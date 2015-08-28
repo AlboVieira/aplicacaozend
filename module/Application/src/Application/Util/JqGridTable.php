@@ -21,6 +21,13 @@ class JqGridTable
     private $queryBuilder;
     private $alias;
 
+    private $offset = 0;
+    private $qtdRegistrosPaginados;
+
+    private $rows;
+    private $page;
+
+
     /**
      * @param mixed $title
      */
@@ -55,9 +62,46 @@ class JqGridTable
         return $this;
     }
 
+    /*public function setQueryOrder(){
+        foreach ($this->ordenacao as $campo => $direcao) {
+            $campoOrderExpr = $this->colunas[$campo][self::PARAM_COLUNAS_DATA];
+            $campoOrderExpr = str_replace('\\', '', $campoOrderExpr);
+
+            if (isset($this->ordenacaoReplace[$campoOrderExpr])) {
+                $campoOrderExpr = $this->ordenacaoReplace[$campoOrderExpr];
+            } else {
+                $campoOrderExpr = "LOWER($campoOrderExpr)";
+            }
+
+            $campoOrderAlias = 'order_'.$this->getRandomName(self::RANDOM_LENGTH);
+
+            $qb->addSelect($campoOrderExpr.' as '.$campoOrderAlias);
+            $qb->addOrderBy($campoOrderAlias, $direcao);
+        }
+
+        return $qb;
+    }*/
+
     public function getTodosRegistros()
     {
         $qb = clone $this->queryBuilder;
+
+        $this->setQueryOffset($qb);
+
+        $results = $qb
+            ->getQuery()
+            ->getResult();
+
+        //$this->lastQuery = $qb->getQuery()->getSQL();
+
+        return $results;
+    }
+
+    public function getRegistrosPaginados()
+    {
+        $qb = clone $this->queryBuilder;
+
+        $this->setQueryOffset($qb);
 
         $results = $qb
             ->getQuery()
@@ -73,7 +117,7 @@ class JqGridTable
         $qtde = $this->getCount();
 
         return array(
-            JqGridConst::PARAM_REGISTROS => $this->getTodosRegistros(),
+            JqGridConst::PARAM_REGISTROS => $this->getRegistrosPaginados(),
             JqGridConst::PARAM_QTD_TOTAL => $qtde,
             JqGridConst::PARAM_REGISTRO_ENCONTRADOS => $qtde,
         );
@@ -94,15 +138,28 @@ class JqGridTable
     }
 
 
-    public function getParametrosFromPost()
+    private function setQueryOffset(&$qb)
     {
-        /*
-        $parametros = array();
+        $qb->setFirstResult($this->offset);
+        $qb->setMaxResults($this->qtdRegistrosPaginados);
 
-        if (isset($_GET[])) {
-            $parametros[self::PARAM_COLUNAS] = $_GET[self::PARAM_COLUNAS];
+        return $qb;
+    }
+
+    public function setParametrosRequest()
+    {
+
+        if (isset($_GET['rows'])) {
+            $this->qtdRegistrosPaginados = $_GET['rows'];
         }
-        */
+        if (isset($_GET['page'])) {
+            $this->page = $_GET['page'];
+        }
+
+        if ($this->page > 1) {
+            $this->offset = ($this->page - 1) * $this->qtdRegistrosPaginados;
+        }
+
     }
 
     public function renderJs(){
@@ -133,6 +190,7 @@ class JqGridTable
                 caption: "<h4><b>$this->title</b></h4>",
                 jsonReader: {repeatitems: false},
                 autoWidth:true,
+                postData:{myname:'teste'},
                 //shrink:true
             });
         });

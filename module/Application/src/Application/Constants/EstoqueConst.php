@@ -24,6 +24,6 @@ interface EstoqueConst
     const LBL_NOTA = 'Nota Fiscal';
 
     const FLD_PRODUTO_ESTOQUE_MEDIA = 'media';
-    const LBL_PRODUTO_ESTOQUE_MEDIA = 'Média/Gasto';
+    const LBL_PRODUTO_ESTOQUE_MEDIA = 'Media de gasto por produto';
 }
 

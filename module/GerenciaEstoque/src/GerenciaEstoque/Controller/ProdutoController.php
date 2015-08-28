@@ -91,7 +91,6 @@ class ProdutoController extends ActionControllerAbstract
 
         $id = $this->params()->fromRoute('id');
         $produto = $service->getProduto($id);
-        //$produto->fromArray();
         $form->bind($produto);
 
         if ($this->getRequest()->isPost()) {

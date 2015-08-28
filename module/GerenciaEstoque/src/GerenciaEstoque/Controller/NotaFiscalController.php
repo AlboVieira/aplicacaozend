@@ -67,6 +67,7 @@ class NotaFiscalController extends ActionControllerAbstract
                 try {
                     if ($notaFiscal = $service->salvar($form->getData())) {
                         $this->flashMessenger()->addSuccessMessage(MensagemConst::CADASTRO_SUCESSO);
+                        $this->redirect()->toRoute('nota-fiscal');
                         //$this->redirect()->toUrl('/nota-fiscal/editar/' . $notaFiscal->getIdNotaFiscal());
                     } else {
                         $this->flashMessenger()->addErrorMessage(MensagemConst::OCORREU_UM_ERRO);

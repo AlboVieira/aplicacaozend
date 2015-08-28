@@ -99,7 +99,7 @@ class PedidoService extends ServiceAbstract
         $jqgrid->setAlias('p');
         $jqgrid->setQuery($qb);
 
-        //$paramsPost = $jqgrid->getParametrosFromPost();
+        $jqgrid->setParametrosRequest();
         $rows = $jqgrid->getDatatableArray();
 
 

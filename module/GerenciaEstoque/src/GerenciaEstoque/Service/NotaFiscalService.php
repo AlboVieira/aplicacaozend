@@ -117,7 +117,7 @@ class NotaFiscalService extends ServiceAbstract
         $jqgrid->setAlias('n');
         $jqgrid->setQuery($qb);
 
-        //$paramsPost = $jqgrid->getParametrosFromPost();
+        $jqgrid->setParametrosRequest();
         $rows = $jqgrid->getDatatableArray();
 
 
